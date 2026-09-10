@@ -1,0 +1,24 @@
+/* Editorial typography shared with the final contact invitation. */
+.nav-center{gap:clamp(20px,2.2vw,38px);align-items:center}
+.nav-link{font-family:Aeonik,Arial,sans-serif;font-size:16px;font-weight:400;letter-spacing:-.02em;text-transform:none;position:relative;padding:7px 0;color:#eee}
+.nav-link::after{content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background:#b98bff;transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.nav-link:hover::after,.nav-link:focus-visible::after{transform:scaleX(1)}
+.nav-cta{font-family:Aeonik,Arial,sans-serif;font-size:14px;letter-spacing:0;font-weight:400}
+.footer,.footer-logo,.footer-wordmark,.footer-col-label,.footer-col a{font-family:Aeonik,Arial,sans-serif}
+.footer-wordmark{font-weight:400;font-size:clamp(58px,15vw,600px);letter-spacing:-.065em;line-height:1.05}
+.footer-logo{font-weight:400;font-size:38px;letter-spacing:-.05em}
+.footer-col-label{font-size:14px;letter-spacing:0;text-transform:none;color:#dedede}
+.footer-col a{font-size:16px;letter-spacing:-.015em;line-height:1.4}
+.footer-tagline{font-size:15px}.footer-bottom{font-size:13px}
+.footer-col{min-width:0}.footer-col a[href^="mailto:"]{overflow-wrap:anywhere}
+/* Two equal-width groups keep the wider spacing seamless at the loop boundary. */
+.marquee-track{--topic-space:clamp(40px,4.5vw,120px);gap:0;animation-duration:38s}
+.marquee-group{display:flex;flex:none;align-items:center;gap:var(--topic-space);padding-right:var(--topic-space)}
+.marquee-item,.marquee-sep{flex:none}
+.testimonials-section .author-avatar:empty{display:none}
+.about-story .lens-about-text{font-size:16px;line-height:1.6}
+@media(max-width:767px){.nav-center{gap:12px}.nav-link{font-size:14px}.nav-cta{font-size:12px}.footer-wordmark{font-size:15vw}.footer-logo{font-size:32px}.footer-col a{font-size:15px}.about-story{gap:12px}.about-story .lens-about-lead{font-size:clamp(21px,5.7vw,25px)}.about-story .lens-about-text{font-size:14px;line-height:1.45}.lens-about-card .about-visual{height:20svh;min-height:120px;max-height:170px}}
+@media(prefers-reduced-motion:reduce){.nav-link::after{transition:none}.marquee-track{animation:none}}
+
+/* Final spacing below the typographic statement. */
+#hero.hero{padding-bottom:clamp(72px,8vw,150px)}

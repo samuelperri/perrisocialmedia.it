@@ -1,0 +1,13 @@
+// Progressive gallery; every approved photograph remains accessible.
+const filters=[...document.querySelectorAll('[data-filter]')],cards=[...document.querySelectorAll('.project-card')],more=document.querySelector('#showMorePhotos');
+let category='Tutti',limit=12,previous,activeIndex=0;
+const filtered=()=>cards.filter(card=>category==='Tutti'||card.dataset.category===category);
+function refresh(){const matches=filtered();cards.forEach(card=>card.hidden=!matches.slice(0,limit).includes(card));more.hidden=matches.length<=limit;document.querySelector('#photoCount').textContent=`${Math.min(limit,matches.length)} / ${matches.length} fotografie`;requestAnimationFrame(()=>{window.dispatchEvent(new Event('resize'));window.ScrollTrigger?.refresh();});}
+filters.forEach(button=>button.addEventListener('click',()=>{category=button.dataset.filter;limit=12;filters.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));refresh();}));
+more.addEventListener('click',()=>{const next=filtered()[limit]?.querySelector('button');limit+=12;refresh();next?.focus({preventScroll:true});});
+const dialog=document.querySelector('#projectDialog');
+function showPhoto(index){const group=filtered();activeIndex=(index+group.length)%group.length;const button=group[activeIndex].querySelector('.project-open');const img=dialog.querySelector('img');img.src=button.dataset.full;img.alt=button.querySelector('img').alt;dialog.querySelector('h2').textContent=button.dataset.title;document.querySelector('#projectDialogDescription').textContent=`${activeIndex+1} / ${group.length} · ${group[activeIndex].dataset.category}`;}
+cards.forEach(card=>card.querySelector('button').addEventListener('click',e=>{previous=e.currentTarget;showPhoto(filtered().indexOf(card));dialog.showModal();}));
+dialog.querySelector('.project-close').addEventListener('click',()=>dialog.close());dialog.querySelector('[data-photo-prev]').addEventListener('click',()=>showPhoto(activeIndex-1));dialog.querySelector('[data-photo-next]').addEventListener('click',()=>showPhoto(activeIndex+1));
+dialog.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();showPhoto(activeIndex-1);}if(e.key==='ArrowRight'){e.preventDefault();showPhoto(activeIndex+1);}});
+dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});dialog.addEventListener('close',()=>previous?.focus({preventScroll:true}));dialog.addEventListener('wheel',e=>e.stopPropagation(),{passive:true});dialog.addEventListener('touchmove',e=>e.stopPropagation(),{passive:true});refresh();
