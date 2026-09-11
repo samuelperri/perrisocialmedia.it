@@ -25,7 +25,7 @@
 .reel-number{font-size:12px;color:#777;font-variant-numeric:tabular-nums}
 .reel-card:focus-visible{outline:2px solid #b584ff;outline-offset:5px;border-radius:18px}
 .reel-card:focus-visible .reel-play{background:#8b3dff;transform:translate(-50%,-50%) scale(1.1)}
-.reels-footer{margin:30px 5% 0;border-top:1px solid #ffffff26;padding-top:22px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.reels-footer{display:none}
 .reels-counter{font:400 14px Aeonik,Arial,sans-serif;font-variant-numeric:tabular-nums;color:#efefef;letter-spacing:.04em}.reels-counter>span+span{color:#777}
 .reels-navigation{display:flex;gap:12px}.reels-navigation button{width:48px;height:48px;display:grid;place-items:center;border:1px solid #ffffff36;border-radius:50%;background:none;color:#fff;font:400 24px Aeonik,Arial,sans-serif;cursor:pointer;transition:background .25s,border-color .25s}
 .reels-navigation button:hover:not(:disabled){background:#8b3dff;border-color:#8b3dff}.reels-navigation button:disabled{opacity:.25;cursor:default}.reels-navigation button:focus-visible,.reel-dialog button:focus-visible{outline:2px solid #ba91ff;outline-offset:4px}

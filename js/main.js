@@ -380,48 +380,68 @@ function initScroll() {
     scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 0 }
   });
 
-  // 3 ── HERO PARALLAX scrub — content sale e svanisce, reel zooma
-  gsap.to('#heroStatement', {
-    y: 0, scale: 1.015, ease: 'none',
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
-  });
+  // Read the native scroll position on both directions, including page restores.
+  // This reveal must not retain a completed ScrollTrigger playhead after idle.
   const statement = document.getElementById('heroStatement');
   if (statement) {
-    const windows = gsap.utils.toArray('.media-window');
-    const mediaTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: statement,
-        start: 'top 65%',
-        end: 'bottom 5%',
-        scrub: 1
+    const section = statement.closest('.hero');
+    const windows = [...statement.querySelectorAll('.media-window')];
+    const pictures = windows.map(el => el.querySelector('img'));
+    const words = statement.querySelectorAll('.statement-word');
+    let mediaTl, frame = 0, lastTime = 0, current = 0, start = 0, distance = 1;
+    let sectionTop = 0, statementTop = 0, sectionHeight = 1, layoutWidth = 0;
+    const bounded = value => Math.max(0, Math.min(1, value));
+    function measureStatement() {
+      cancelAnimationFrame(frame); frame = 0;
+      const mobile = innerWidth < 768;
+      if (!mediaTl || layoutWidth !== innerWidth) {
+        layoutWidth = innerWidth;
+        mediaTl?.kill();
+        gsap.set(windows, {clearProps:'width,opacity,transform,clipPath'});
+        gsap.set(pictures, {clearProps:'transform'});
+        const openWidth = (_, el) => Math.min(Number(el.dataset.open || 160), innerWidth * (mobile ? .34 : .16));
+        // Reserve the final mobile layout so opening an image cannot move the
+        // following lines, camera boundary, or the visitor's scroll position.
+        if (mobile) gsap.set(windows, {width:openWidth});
+        mediaTl = gsap.timeline({paused:true});
+        mediaTl.fromTo(words, {color:'#151515'}, {color:'#fff',opacity:1,y:0,duration:.7,stagger:.025,ease:'none'}, 0);
+        mediaTl.fromTo(windows,
+          mobile ? {opacity:0,y:0,scale:1,clipPath:'inset(0 100% 0 0)'} : {width:0,opacity:0,y:'.08em',scale:.82},
+          {...(mobile ? {clipPath:'inset(0 0% 0 0)'} : {width:openWidth}),opacity:1,y:0,scale:1,duration:.75,stagger:.08,ease:'power2.out'}, .08);
+        mediaTl.fromTo(pictures, {scale:1.22}, {scale:1,duration:.85,stagger:.08,ease:'power2.out'}, .08);
       }
+      sectionTop = section.getBoundingClientRect().top + scrollY;
+      statementTop = sectionTop + parseFloat(getComputedStyle(section).paddingTop);
+      sectionHeight = section.offsetHeight;
+      start = statementTop - innerHeight * .65;
+      distance = Math.max(1, statement.offsetHeight + innerHeight * .6);
+      current = bounded((scrollY - start) / distance);
+      paintStatement();
+    }
+    function paintStatement() {
+      mediaTl.progress(current);
+      gsap.set(statement, {scale:1 + .015 * bounded((scrollY - sectionTop) / sectionHeight)});
+    }
+    function tickStatement(now) {
+      const target = bounded((scrollY - start) / distance);
+      const elapsed = Math.min(64, now - lastTime || 16.7); lastTime = now;
+      current += (target - current) * (1 - Math.exp(-elapsed / 150));
+      if (Math.abs(target - current) < .0001) current = target;
+      paintStatement();
+      frame = current === target ? 0 : requestAnimationFrame(tickStatement);
+    }
+    function updateStatement() {
+      if (!frame && !document.hidden) { lastTime = 0; frame = requestAnimationFrame(tickStatement); }
+    }
+    addEventListener('scroll', updateStatement, {passive:true});
+    addEventListener('resize', measureStatement);
+    addEventListener('pageshow', measureStatement);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) { cancelAnimationFrame(frame); frame = 0; }
+      else measureStatement();
     });
-    mediaTl.fromTo(statement.querySelectorAll('.statement-word'), {color: '#151515'}, {
-      color: '#fff',
-      opacity: 1,
-      y: 0,
-      duration: .7,
-      stagger: { each: .025, from: 'start' },
-      ease: 'none'
-    }, 0);
-    mediaTl.to(windows, {
-      width: (_, el) => {
-        const target = parseFloat(el.dataset.open || 160);
-        return Math.min(target, window.innerWidth < 768 ? window.innerWidth * .34 : window.innerWidth * .16);
-      },
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      duration: .75,
-      stagger: .08,
-      ease: 'power2.out'
-    }, .08);
-    mediaTl.to('.media-window img', {
-      scale: 1,
-      duration: .85,
-      stagger: .08,
-      ease: 'power2.out'
-    }, .08);
+    document.fonts.ready.then(measureStatement);
+    measureStatement();
   }
 
   // 4 ── CLIP-PATH REVEAL sui titoli di sezione (testo esce da sotto come un sipario)
