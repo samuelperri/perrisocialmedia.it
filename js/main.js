@@ -388,16 +388,40 @@ function initScroll() {
   const statement = document.getElementById('heroStatement');
   if (statement) {
     const windows = gsap.utils.toArray('.media-window');
-    gsap.matchMedia().add('(min-width: 768px)', () => {
-      const mediaTl = gsap.timeline({scrollTrigger:{trigger:statement,start:'top 65%',end:'bottom 5%',scrub:1}});
-      mediaTl.fromTo(statement.querySelectorAll('.statement-word'), {color:'#151515'}, {color:'#fff',opacity:1,y:0,duration:.7,stagger:.025,ease:'none'},0);
-      mediaTl.to(windows,{width:(_,el)=>Math.min(parseFloat(el.dataset.open||160),innerWidth*.16),opacity:1,y:0,scale:1,duration:.75,stagger:.08,ease:'power2.out'},.08);
-      mediaTl.to('.media-window img',{scale:1,duration:.85,stagger:.08,ease:'power2.out'},.08);
+    const mediaTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: statement,
+        start: 'top 65%',
+        end: 'bottom 5%',
+        scrub: 1
+      }
     });
-    gsap.matchMedia().add('(max-width: 767px)', () => {
-      // Animate opacity only: no reflow, changing line breaks or horizontal overflow on phones.
-      gsap.fromTo(statement.querySelectorAll('.statement-word'),{color:'#666'},{color:'#fff',stagger:.02,ease:'none',scrollTrigger:{trigger:statement,start:'top 85%',end:'bottom 45%',scrub:.4}});
-    });
+    mediaTl.fromTo(statement.querySelectorAll('.statement-word'), {color: '#151515'}, {
+      color: '#fff',
+      opacity: 1,
+      y: 0,
+      duration: .7,
+      stagger: { each: .025, from: 'start' },
+      ease: 'none'
+    }, 0);
+    mediaTl.to(windows, {
+      width: (_, el) => {
+        const target = parseFloat(el.dataset.open || 160);
+        return Math.min(target, window.innerWidth < 768 ? window.innerWidth * .34 : window.innerWidth * .16);
+      },
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      duration: .75,
+      stagger: .08,
+      ease: 'power2.out'
+    }, .08);
+    mediaTl.to('.media-window img', {
+      scale: 1,
+      duration: .85,
+      stagger: .08,
+      ease: 'power2.out'
+    }, .08);
   }
 
   // 4 ── CLIP-PATH REVEAL sui titoli di sezione (testo esce da sotto come un sipario)

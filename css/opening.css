@@ -11,9 +11,8 @@
 body.opening-visible .nav,body.opening-visible .nav.scrolled{background:linear-gradient(#0005,transparent);backdrop-filter:none;border-color:transparent;color:white}
 body.opening-visible .nav-logo,body.opening-visible .nav-link{color:white}
 body.opening-visible .nav-cta{background:#8b3dff;color:white}
-.camera-filter-defs{position:absolute;pointer-events:none;overflow:hidden}
-.cp-art{mix-blend-mode:normal}
-.cp-art:not(.cp-photo){filter:url(#camera-linework)}
+/* Clip only the empty outer canvas; the original drawing remains untouched. */
+.cp-art{mix-blend-mode:multiply;clip-path:polygon(7.200% 27.530%,10.945% 27.530%,10.945% 25.390%,28.600% 25.390%,28.600% 22.180%,29.670% 17.900%,31.810% 14.690%,33.950% 12.550%,35.020% 12.550%,35.020% 8.698%,38.765% 8.698%,38.765% 9.554%,45.720% 9.554%,45.720% 8.698%,49.465% 8.698%,49.465% 11.694%,52.140% 13.620%,54.280% 17.900%,55.350% 17.900%,67.120% 17.900%,67.120% 22.180%,76.750% 22.180%,76.750% 23.250%,81.030% 23.250%,81.030% 21.645%,84.775% 21.645%,84.775% 23.250%,87.985% 23.250%,87.985% 26.460%,89.590% 27.530%,92.800% 27.530%,92.800% 31.810%,89.590% 35.020%,89.590% 83.170%,88.520% 87.450%,86.380% 88.520%,14.690% 88.520%,11.480% 86.380%,10.945% 82.100%,10.945% 36.090%,7.200% 33.950%)}
 .cp-wall{pointer-events:none}
 .cp-jump,.cp-start{bottom:64px}
 .cp-exit{bottom:64px}
@@ -25,11 +24,6 @@ body.opening-visible .nav-cta{background:#8b3dff;color:white}
  .opening-film-bottom{left:5%;right:5%;bottom:58px;font-size:13px;gap:12px}
  .opening-film-bottom a{gap:12px}
  .opening-film-bottom p{max-width:120px;text-align:right}
- #hero{padding:58px 16px 68px}
- #hero .hero-statement{width:100%;max-width:100%;padding:0;transform:none!important}
- #hero .hero-statement p{font-size:8.35vw;line-height:1.1;display:flex;flex-wrap:nowrap;justify-content:center;align-items:center;gap:.22em;white-space:nowrap;letter-spacing:-.05em;margin:0 0 .12em}
- #hero .media-window,body.motion-off #hero .media-window{width:11vw!important;min-width:0;height:.82em;flex:0 0 11vw;opacity:1!important;border-radius:5px;margin:0 .04em}
- #hero .media-window img{min-width:0;width:100%;height:100%;object-fit:cover;transform:none!important}
  .industries-section{padding:30px 0 26px}
  .industries-section .container{padding-inline:20px}
  .industries-inner{gap:16px}

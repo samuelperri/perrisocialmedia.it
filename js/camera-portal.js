@@ -3,7 +3,7 @@ const journey=document.querySelector('#cameraJourney');
 if(journey){
  const films=[['46','Let Him Cook'],['75','M4 Nightlife'],['53','HYROX FEELING'],['17','Il mondo del profumo'],['54','Cortometraggio di moda']];
  const rows=[['75','03','14','55','53','70'],['12','17','01','66','56','54'],['60','24','16','13','57','64'],['67','02','16','46','61','72']];
- const stage=journey.querySelector('.cp-stage'),art=journey.querySelector('.cp-art'),photo=journey.querySelector('.cp-photo'),display=journey.querySelector('.cp-display'),space=journey.querySelector('.cp-space'),hero=journey.querySelector('.cp-hero'),film=document.querySelector('#cameraHeroFilm'),wall=journey.querySelector('.cp-wall');
+ const stage=journey.querySelector('.cp-stage'),art=journey.querySelector('.cp-art'),display=journey.querySelector('.cp-display'),space=journey.querySelector('.cp-space'),hero=journey.querySelector('.cp-hero'),film=document.querySelector('#cameraHeroFilm'),wall=journey.querySelector('.cp-wall');
  const jump=journey.querySelector('.cp-jump'),start=journey.querySelector('.cp-start'),back=journey.querySelector('.cp-back'),proceed=journey.querySelector('.cp-continue'),instruction=journey.querySelector('.cp-lcd-instruction');
  const controls=journey.querySelector('.cp-film-controls'),previous=controls.querySelector('.cp-previous'),next=controls.querySelector('.cp-next'),count=controls.querySelector('.cp-film-count');
  const dialog=document.querySelector('#cameraFilmDialog'),player=dialog.querySelector('video'),dialogPhoto=dialog.querySelector('.cp-dialog-photo');
@@ -25,8 +25,8 @@ if(journey){
  const progress=()=>staticMode()?1:clamp((window.scrollY-startY)/travel);
  function render(){
   frame=0;const p=progress(),g=cameraGeometry(size.width,size.height,null,p),r=g.screen;
-  [[art,g.outline],[photo,g.photo]].forEach(([el,c])=>{el.style.width=c.width+'px';el.style.height=c.height+'px';el.style.transform='translate3d('+c.x+'px,'+c.y+'px,0) scale('+c.scale+')';el.style.visibility=g.cameraVisible?'visible':'hidden';});
-  photo.style.opacity=g.blend;art.style.opacity=1;
+  [[art,g.outline]].forEach(([el,c])=>{el.style.width=c.width+'px';el.style.height=c.height+'px';el.style.transform='translate3d('+c.x+'px,'+c.y+'px,0) scale('+c.scale+')';el.style.visibility=g.cameraVisible?'visible':'hidden';});
+  art.style.opacity=1;
   for(const [property,value] of Object.entries({left:r.x,top:r.y,width:r.width,height:r.height}))display.style[property]=value+'px';
   // Fit the entire same scene inside the LCD; expand its aperture during the push.
   const scale=Math.min(r.width/size.width,r.height/size.height);
