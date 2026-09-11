@@ -33,7 +33,7 @@ body.camera-cinema .nav{opacity:0;pointer-events:none}body.camera-cinema .nav:fo
 .cp-dialog-bar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 22px}.cp-dialog-bar h2{font-size:18px;line-height:1.25;font-weight:400;margin:0}.cp-close{background:none;border:0;color:#ddd;font-size:14px;padding:9px;cursor:pointer}.cp-dialog video{display:block;width:100%;max-height:82svh;object-fit:contain;background:#050505}.cp-error{padding:20px;color:#ddd}.cp-error[hidden]{display:none}
 
 @media(max-width:700px){.cp-film-controls{top:calc(50% + 24vw + 18px);gap:22px}.cp-card-label{padding:20px 8px 8px;font-size:12px}.cp-exit{bottom:24px}.cp-exit button,.cp-exit a{font-size:11px}}
-.cp-journey.is-static{height:100svh}.cp-journey.is-static .cp-stage{position:relative}.cp-journey.is-static .cp-back{display:none}
+.cp-journey.is-static{height:100svh}.cp-journey.is-static .cp-stage{position:relative}
 @media(prefers-reduced-motion:reduce){.cp-project{will-change:auto}}
 
 .cp-film-controls{top:calc(50% + min(12.1vw,24.75svh) + 22px)}

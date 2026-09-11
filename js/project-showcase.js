@@ -24,7 +24,7 @@
   const left=selected.getBoundingClientRect().left-thumbs.getBoundingClientRect().left+thumbs.scrollLeft-thumbs.clientWidth/2+selected.offsetWidth/2;
   thumbs.scrollTo({left,behavior:reduced()?'instant':'smooth'});
  }
- function openCase(index,trigger){
+ function openCase(index,trigger,initialPhoto=0){
   caseIndex=index;lastTrigger=trigger;const project=projects[index];
   dialog.querySelector('#projectDialogTitle').textContent=project.title;
   dialog.querySelector('#caseCategory').textContent=project.category;
@@ -34,9 +34,14 @@
    const thumb=document.createElement('img');thumb.src=photo.thumb;thumb.alt='';thumb.loading='lazy';thumb.decoding='async';b.append(thumb);
    b.addEventListener('click',()=>showPhoto(i));thumbs.append(b);
   });
-  dialog.showModal();dialog.scrollTop=0;showPhoto(0);
+  document.querySelectorAll('video').forEach(video=>video.pause());
+  dialog.showModal();dialog.scrollTop=0;showPhoto(initialPhoto);
  }
- root.querySelectorAll('[data-case]').forEach(b=>b.addEventListener('click',()=>openCase(Number(b.dataset.case),b)));
+ document.addEventListener('click',event=>{
+  const trigger=event.target.closest('[data-case]');if(!trigger)return;
+  const index=Number(trigger.dataset.case);if(!projects[index])return;
+  openCase(index,trigger,Number(trigger.dataset.photo)||0);
+ });
  dialog.querySelector('.sc-close').addEventListener('click',()=>dialog.close());
  dialog.querySelector('[data-photo-prev]').addEventListener('click',()=>showPhoto(photoIndex-1));
  dialog.querySelector('[data-photo-next]').addEventListener('click',()=>showPhoto(photoIndex+1));

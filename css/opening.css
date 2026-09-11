@@ -8,11 +8,16 @@
 .opening-film-bottom a{color:#fff;display:flex;align-items:center;gap:24px;min-height:44px;text-decoration:none}
 .opening-film-bottom a span{font:24px Aeonik,Arial,sans-serif}
 .opening-film-bottom p{margin:0;padding-bottom:12px}
+.opening-play{position:absolute;right:4%;bottom:116px;z-index:4;min-height:44px;padding:10px 18px;border:1px solid #ffffff70;border-radius:0;background:#08080850;color:white;font:14px Aeonik,Arial,sans-serif;cursor:pointer;backdrop-filter:blur(8px)}
+.opening-play.is-paused{background:#fff;color:#111;border-color:white}
+.opening-play[hidden]{display:none}
+.opening-play:focus-visible{outline:2px solid #b98bff;outline-offset:4px}
 body.opening-visible .nav,body.opening-visible .nav.scrolled{background:linear-gradient(#0005,transparent);backdrop-filter:none;border-color:transparent;color:white}
 body.opening-visible .nav-logo,body.opening-visible .nav-link{color:white}
 body.opening-visible .nav-cta{background:#8b3dff;color:white}
 .cp-wall{pointer-events:none}
 .cp-jump,.cp-start{bottom:64px}
+.cp-start{bottom:116px}
 .cp-exit{bottom:64px}
 .pl-name,.pl-counter{display:none!important}
 .industries-section .pill{transition:color .25s,border-color .25s,background-color .25s}

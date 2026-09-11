@@ -1,4 +1,4 @@
-import {cameraGeometry,clamp} from './camera-geometry.js';
+import {cameraGeometry,clamp} from './camera-geometry.js?v=20260911-restored';
 const journey=document.querySelector('#cameraJourney');
 if(journey){
  const films=[['46','Let Him Cook'],['75','M4 Nightlife'],['53','HYROX FEELING'],['17','Il mondo del profumo'],['54','Cortometraggio di moda']];
@@ -7,9 +7,9 @@ if(journey){
  const jump=journey.querySelector('.cp-jump'),start=journey.querySelector('.cp-start'),back=journey.querySelector('.cp-back'),proceed=journey.querySelector('.cp-continue'),instruction=journey.querySelector('.cp-lcd-instruction');
  const controls=journey.querySelector('.cp-film-controls'),previous=controls.querySelector('.cp-previous'),next=controls.querySelector('.cp-next'),count=controls.querySelector('.cp-film-count');
  const dialog=document.querySelector('#cameraFilmDialog'),player=dialog.querySelector('video'),dialogPhoto=dialog.querySelector('.cp-dialog-photo');
- const preference=matchMedia('(prefers-reduced-motion:reduce)'),staticMode=()=>!!window.perriMotionOff||preference.matches||!!navigator.connection?.saveData;
+ const preference=matchMedia('(prefers-reduced-motion:reduce)'),staticMode=()=>!!window.perriMotionOff||preference.matches;
  let priorFocus,frame=0,ready=false,attempting=false,playRequest=0,selected=0,onScreen=false,siteReady=!document.body.classList.contains('is-loading'),switching=false,hoverTimer;
- let startY=0,travel=1,size={width:1,height:1};
+ let startY=0,travel=1,size={width:1,height:1},staticEntered=false;
  const pointer={x:0,y:0},inertia={x:0,y:0},buttons=[];
  // The moving wall is purely decorative; project selection stays in fixed controls.
  rows.forEach(keys=>{
@@ -22,7 +22,8 @@ if(journey){
   size={width:stage.clientWidth,height:stage.clientHeight};startY=window.scrollY+journey.getBoundingClientRect().top;travel=Math.max(1,journey.offsetHeight-stage.offsetHeight);
   space.style.width=size.width+'px';space.style.height=size.height+'px';render();
  }
- const progress=()=>staticMode()?1:clamp((window.scrollY-startY)/travel);
+ // Reduced motion preserves the camera; entering is an explicit, instant action.
+ const progress=()=>staticMode()?(staticEntered?1:0):clamp((window.scrollY-startY)/travel);
  function render(){
   frame=0;const p=progress(),g=cameraGeometry(size.width,size.height,null,p),r=g.screen;
   [[art,g.outline],[photo,g.photo]].forEach(([el,c])=>{el.style.width=c.width+'px';el.style.height=c.height+'px';el.style.transform='translate3d('+c.x+'px,'+c.y+'px,0) scale('+c.scale+')';el.style.visibility=g.cameraVisible?'visible':'hidden';});
@@ -34,7 +35,7 @@ if(journey){
   space.style.opacity=g.reveal;space.style.clipPath='inset(0 '+(1-g.reveal)*40+'%)';
   instruction.style.opacity=1-clamp(p/.24);instruction.hidden=p>.3;
   display.style.background=p>=.78?'#080808':'#faf9f7';stage.style.background=p>=.78?'#080808':'#faf9f7';stage.classList.toggle('is-dark',p>=.78);
-  ready=p>=.72||staticMode();journey.classList.toggle('is-ready',ready);jump.hidden=ready;
+  ready=p>=.72;journey.classList.toggle('is-ready',ready);jump.hidden=ready;
   previous.disabled=next.disabled=!ready;hero.disabled=!ready;hero.tabIndex=ready?0:-1;buttons.forEach(b=>{b.disabled=!ready;b.tabIndex=ready?0:-1;});
   back.tabIndex=proceed.tabIndex=ready?0:-1;
   const motion=ready&&onScreen&&siteReady&&!document.hidden&&!dialog.open&&!staticMode();
@@ -42,13 +43,14 @@ if(journey){
   inertia.x+=((motion?pointer.x:0)-inertia.x)*.085;inertia.y+=((motion?pointer.y:0)-inertia.y)*.085;
   hero.style.transform='translate(-50%,-50%) perspective(1200px) rotateX('+(-inertia.y*2)+'deg) rotateY('+inertia.x*3+'deg)';
   wall.style.transform='translate3d('+(-inertia.x*14)+'px,'+(-inertia.y*10)+'px,0)';
-  document.body.classList.toggle('camera-paper',onScreen&&p<.30&&!staticMode());document.body.classList.toggle('camera-cinema',onScreen&&p>=.30&&p<.72&&!staticMode());
+  document.body.classList.toggle('camera-paper',onScreen&&p<.30);document.body.classList.toggle('camera-cinema',onScreen&&p>=.30&&p<.72&&!staticMode());
   if(Math.abs(inertia.x-(motion?pointer.x:0))+Math.abs(inertia.y-(motion?pointer.y:0))>.001)schedule();
  }
  function schedule(){if(!frame)frame=requestAnimationFrame(render);}
  function sync(){
   render();
-  if(!siteReady||!onScreen||document.hidden||dialog.open||staticMode()||progress()<.30){film.pause();return;}
+  if(!siteReady||!onScreen||document.hidden||dialog.open||progress()<.30){film.pause();start.hidden=true;return;}
+  if(staticMode()||navigator.connection?.saveData){film.pause();start.textContent='Avvia video';start.hidden=false;return;}
   if([...document.querySelectorAll('video')].some(v=>v!==film&&!v.paused&&!v.ended&&!v.muted)){film.pause();return;}
   if(!film.paused||attempting)return;attempting=true;film.muted=true;const request=++playRequest;
   film.play().then(()=>{if(request!==playRequest)return;attempting=false;start.hidden=true;if(!onScreen||document.hidden||dialog.open||staticMode())film.pause();}).catch(()=>{if(request!==playRequest)return;attempting=false;start.textContent='Avvia video';start.hidden=false;});
@@ -82,7 +84,7 @@ if(journey){
  function openFilm(){const [key,title]=films[selected];openMedia(key,title,true,hero);}
  // Finite native-scroll scene: no wheel handlers and no scroll locking.
  function moveTo(y){if(window.lenis)window.lenis.scrollTo(y,{duration:1.35,immediate:staticMode()});else window.scrollTo({top:y,behavior:staticMode()?'instant':'smooth'});}
- jump.addEventListener('click',()=>moveTo(startY+travel));back.addEventListener('click',()=>moveTo(startY));proceed.addEventListener('click',()=>film.pause());hero.addEventListener('click',openFilm);
+ jump.addEventListener('click',()=>{if(staticMode()){staticEntered=true;sync();}else moveTo(startY+travel);});back.addEventListener('click',()=>{if(staticMode()){staticEntered=false;sync();}else moveTo(startY);});proceed.addEventListener('click',()=>film.pause());hero.addEventListener('click',openFilm);
  start.addEventListener('click',()=>{film.muted=true;film.play().then(()=>{start.hidden=true;}).catch(()=>{start.textContent='Riprova il video';});});
  previous.addEventListener('click',()=>selectFilm((selected+films.length-1)%films.length));next.addEventListener('click',()=>selectFilm((selected+1)%films.length));
  stage.addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;const r=stage.getBoundingClientRect();pointer.x=Math.max(-1,Math.min(1,(e.clientX-r.left)/r.width*2-1));pointer.y=Math.max(-1,Math.min(1,(e.clientY-r.top)/r.height*2-1));schedule();});
@@ -97,9 +99,9 @@ if(journey){
  new IntersectionObserver(entries=>{onScreen=entries[0].isIntersecting&&entries[0].intersectionRatio>.2;sync();},{threshold:[0,.2,.5]}).observe(stage);
  new ResizeObserver(measure).observe(stage);window.addEventListener('resize',measure);art.addEventListener('load',measure);window.addEventListener('scroll',()=>{schedule();if(film.paused&&progress()>.30)sync();},{passive:true});
  window.addEventListener('perri:ready',()=>{siteReady=true;measure();sync();});
- function motionChange(){journey.classList.toggle('is-static',staticMode());measure();sync();window.ScrollTrigger?.refresh();window.lenis?.resize();}
+ function motionChange(){journey.classList.toggle('is-static',staticMode());instruction.textContent=staticMode()?'Entra nel portfolio':'SCORRI PER ENTRARE ↓';measure();sync();window.ScrollTrigger?.refresh();window.lenis?.resize();}
  preference.addEventListener('change',motionChange);window.addEventListener('perri:motion',motionChange);
  document.addEventListener('visibilitychange',()=>{if(document.hidden)player.pause();sync();});
  window.addEventListener('pagehide',()=>{cancelAnimationFrame(frame);frame=0;journey.classList.remove('is-running');film.pause();player.pause();});window.addEventListener('pageshow',sync);
- document.fonts.ready.then(measure);journey.classList.toggle('is-static',staticMode());measure();
+ document.fonts.ready.then(measure);motionChange();
 }
