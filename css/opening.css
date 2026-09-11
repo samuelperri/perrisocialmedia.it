@@ -1,0 +1,46 @@
+/* A full-screen first impression, followed by the existing camera experience. */
+.opening-film{position:relative;height:100svh;min-height:560px;background:#080808;overflow:hidden;isolation:isolate;color:#fff}
+.opening-film>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;z-index:-2}
+.opening-film-shade{position:absolute;inset:0;background:linear-gradient(180deg,#0005,transparent 45%,#0008),linear-gradient(90deg,#0003,transparent 65%);z-index:-1;pointer-events:none}
+.opening-film h1{position:absolute;left:4%;top:21%;margin:0;font:400 clamp(100px,15vw,280px)/.87 Koulen,Arial,sans-serif;letter-spacing:-.025em;color:#fff;pointer-events:none}
+.opening-film h1 span{color:#8b3dff}
+.opening-film-bottom{position:absolute;left:4%;right:4%;bottom:max(58px,env(safe-area-inset-bottom));display:flex;justify-content:space-between;align-items:end;gap:24px;font:400 16px/1.2 Koulen,Arial,sans-serif}
+.opening-film-bottom a{color:#fff;display:flex;align-items:center;gap:24px;min-height:44px;text-decoration:none}
+.opening-film-bottom a span{font:24px Aeonik,Arial,sans-serif}
+.opening-film-bottom p{margin:0;padding-bottom:12px}
+body.opening-visible .nav,body.opening-visible .nav.scrolled{background:linear-gradient(#0005,transparent);backdrop-filter:none;border-color:transparent;color:white}
+body.opening-visible .nav-logo,body.opening-visible .nav-link{color:white}
+body.opening-visible .nav-cta{background:#8b3dff;color:white}
+.camera-filter-defs{position:absolute;pointer-events:none;overflow:hidden}
+.cp-art{mix-blend-mode:normal}
+.cp-art:not(.cp-photo){filter:url(#camera-linework)}
+.cp-wall{pointer-events:none}
+.cp-jump,.cp-start{bottom:64px}
+.cp-exit{bottom:64px}
+.pl-name,.pl-counter{display:none!important}
+.industries-section .pill{transition:color .25s,border-color .25s,background-color .25s}
+@media(max-width:767px){
+ .opening-film{min-height:580px}
+ .opening-film h1{left:5%;top:25%;font-size:28vw;line-height:.88}
+ .opening-film-bottom{left:5%;right:5%;bottom:58px;font-size:13px;gap:12px}
+ .opening-film-bottom a{gap:12px}
+ .opening-film-bottom p{max-width:120px;text-align:right}
+ #hero{padding:58px 16px 68px}
+ #hero .hero-statement{width:100%;max-width:100%;padding:0;transform:none!important}
+ #hero .hero-statement p{font-size:8.35vw;line-height:1.1;display:flex;flex-wrap:nowrap;justify-content:center;align-items:center;gap:.22em;white-space:nowrap;letter-spacing:-.05em;margin:0 0 .12em}
+ #hero .media-window,body.motion-off #hero .media-window{width:11vw!important;min-width:0;height:.82em;flex:0 0 11vw;opacity:1!important;border-radius:5px;margin:0 .04em}
+ #hero .media-window img{min-width:0;width:100%;height:100%;object-fit:cover;transform:none!important}
+ .industries-section{padding:30px 0 26px}
+ .industries-section .container{padding-inline:20px}
+ .industries-inner{gap:16px}
+ .industries-pills{gap:8px}
+ .industries-section .pill{opacity:1!important;visibility:visible!important;transform:none!important;font-size:11px;padding:9px 12px}
+ .stats-section{padding:30px 0 38px}
+ .stats-section .container{padding-inline:16px}
+ .stats-section .stats-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:0!important;align-items:start}
+ .stats-section .stat-item{width:100%;min-width:0;padding:12px 6px;border:0!important;text-align:center}
+ .stats-section .stat-item~.stat-item{border-left:1px solid #ffffff18!important}
+ .stats-section .stat-divider{display:none!important}
+ .stats-section .stat-num{font-size:clamp(44px,13vw,72px)!important;line-height:1.15;white-space:nowrap}
+ .stats-section .stat-label{font-size:10px;line-height:1.5;letter-spacing:.08em;margin:10px auto 0;max-width:105px}
+}

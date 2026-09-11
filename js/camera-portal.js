@@ -1,9 +1,8 @@
 import {cameraGeometry,clamp} from './camera-geometry.js';
 const journey=document.querySelector('#cameraJourney');
 if(journey){
- const films=[['46','Let Him Cook'],['75','M4 Nightlife'],['53','HYROX FEELING'],['17','Il mondo del profumo'],['54','Cortometraggio di moda'],['08','After Dark']];
- const photoTitles={"01":"Dentro la partita","02":"Dentro la partita","03":"Dentro la partita","12":"Il gusto, in un frame","13":"Il gusto, in un frame","14":"Il gusto, in un frame","15":"Il gusto, in un frame","16":"Il gusto, in un frame","23":"Dentro la partita","24":"Dentro la partita","25":"Dentro la partita","26":"Dentro la partita","27":"Dentro la partita","28":"Dentro la partita","29":"Dentro la partita","30":"Dentro la partita","31":"Dentro la partita","32":"Dentro la partita","33":"Dentro la partita","34":"Dentro la partita","35":"Dentro la partita","36":"Dentro la partita","37":"Dentro la partita","38":"Dentro la partita","39":"Dentro la partita","40":"Dentro la partita","41":"Dentro la partita","42":"Dentro la partita","43":"Dentro la partita","44":"Dentro la partita","45":"Dentro la partita","52":"Dentro la partita","55":"La cura, da vicino","56":"La cura, da vicino","57":"La cura, da vicino","58":"La cura, da vicino","59":"Persone e luoghi","60":"Persone e luoghi","61":"Persone e luoghi","62":"Persone e luoghi","63":"Persone e luoghi","64":"Persone e luoghi","65":"Persone e luoghi","66":"Luce e spazio","67":"Luce e spazio","68":"Luce e spazio","69":"Luce e spazio","70":"Luce e spazio","71":"Luce e spazio","72":"Luce e spazio","73":"Luce e spazio"};
- const rows=[['75','03','14','55','53','70'],['12','17','01','66','56','54'],['60','24','08','13','57','64'],['67','02','16','46','61','72']];
+ const films=[['46','Let Him Cook'],['75','M4 Nightlife'],['53','HYROX FEELING'],['17','Il mondo del profumo'],['54','Cortometraggio di moda']];
+ const rows=[['75','03','14','55','53','70'],['12','17','01','66','56','54'],['60','24','16','13','57','64'],['67','02','16','46','61','72']];
  const stage=journey.querySelector('.cp-stage'),art=journey.querySelector('.cp-art'),photo=journey.querySelector('.cp-photo'),display=journey.querySelector('.cp-display'),space=journey.querySelector('.cp-space'),hero=journey.querySelector('.cp-hero'),film=document.querySelector('#cameraHeroFilm'),wall=journey.querySelector('.cp-wall');
  const jump=journey.querySelector('.cp-jump'),start=journey.querySelector('.cp-start'),back=journey.querySelector('.cp-back'),proceed=journey.querySelector('.cp-continue'),instruction=journey.querySelector('.cp-lcd-instruction');
  const controls=journey.querySelector('.cp-film-controls'),previous=controls.querySelector('.cp-previous'),next=controls.querySelector('.cp-next'),count=controls.querySelector('.cp-film-count');
@@ -12,19 +11,11 @@ if(journey){
  let priorFocus,frame=0,ready=false,attempting=false,playRequest=0,selected=0,onScreen=false,siteReady=!document.body.classList.contains('is-loading'),switching=false,hoverTimer;
  let startY=0,travel=1,size={width:1,height:1};
  const pointer={x:0,y:0},inertia={x:0,y:0},buttons=[];
+ // The moving wall is purely decorative; project selection stays in fixed controls.
  rows.forEach(keys=>{
   const row=document.createElement('div');row.className='cp-wall-row';
-  keys.forEach(key=>{
-   const index=films.findIndex(f=>f[0]===key),tile=document.createElement('button');
-   tile.className='cp-wall-tile';const img=document.createElement('img');img.src='media/'+key+'-thumb.webp';img.alt='';img.draggable=false;tile.append(img);
-   const title=index>=0?films[index][1]:photoTitles[key];
-   tile.type='button';tile.setAttribute('aria-label','Apri '+title);tile.setAttribute('aria-haspopup','dialog');tile.setAttribute('aria-controls','cameraFilmDialog');buttons.push(tile);
-   // A click always opens the exact asset under the pointer, regardless of hover preview.
-   tile.addEventListener('click',()=>openMedia(key,title,index>=0,tile));
-   if(index>=0){
-    tile.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'&&ready){clearTimeout(hoverTimer);hoverTimer=setTimeout(()=>selectFilm(index,tile),220);}});
-    tile.addEventListener('pointerleave',()=>clearTimeout(hoverTimer));
-   }row.append(tile);
+  keys.forEach(key=>{const tile=document.createElement('div');tile.className='cp-wall-tile';
+   const img=document.createElement('img');img.src='media/'+key+'-thumb.webp';img.alt='';img.draggable=false;tile.append(img);row.append(tile);
   });wall.append(row);
  });
  function measure(){
@@ -35,7 +26,7 @@ if(journey){
  function render(){
   frame=0;const p=progress(),g=cameraGeometry(size.width,size.height,null,p),r=g.screen;
   [[art,g.outline],[photo,g.photo]].forEach(([el,c])=>{el.style.width=c.width+'px';el.style.height=c.height+'px';el.style.transform='translate3d('+c.x+'px,'+c.y+'px,0) scale('+c.scale+')';el.style.visibility=g.cameraVisible?'visible':'hidden';});
-  photo.style.opacity=g.blend;art.style.opacity=1-g.blend;
+  photo.style.opacity=g.blend;art.style.opacity=1;
   for(const [property,value] of Object.entries({left:r.x,top:r.y,width:r.width,height:r.height}))display.style[property]=value+'px';
   // Fit the entire same scene inside the LCD; expand its aperture during the push.
   const scale=Math.min(r.width/size.width,r.height/size.height);
@@ -68,7 +59,7 @@ if(journey){
   const [key,title]=films[selected];
   const change=()=>{
    ++playRequest;film.pause();attempting=false;film.poster='media/'+key+'-thumb.webp';film.src='media/'+key+'.mp4';
-   hero.setAttribute('aria-label','Guarda '+title);hero.querySelector('.cp-card-label').textContent=title+' ↗';count.textContent=String(selected+1).padStart(2,'0')+' / 06';sync();
+   hero.setAttribute('aria-label','Guarda '+title);hero.querySelector('.cp-card-label').textContent=title+' ↗';count.textContent=String(selected+1).padStart(2,'0')+' / '+String(films.length).padStart(2,'0');sync();
   };
   if(staticMode()||!window.gsap){change();return;}
   switching=true;

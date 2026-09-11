@@ -215,7 +215,7 @@ const fsDots  = document.getElementById('fsDots');
 [0,1].forEach(() => slides.forEach(s => {
   const el = document.createElement('div');
   el.className = 'fs-slide';
-  el.innerHTML = `<div class="fs-slide-bg" style="background:${s.g}"></div><span class="fs-slide-label">${s.label}</span>`;
+  el.innerHTML = `<div class="fs-slide-bg" style="background:${s.g}"></div>`;
   fsTrack.appendChild(el);
 }));
 slides.forEach((_, i) => {
@@ -388,40 +388,16 @@ function initScroll() {
   const statement = document.getElementById('heroStatement');
   if (statement) {
     const windows = gsap.utils.toArray('.media-window');
-    const mediaTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: statement,
-        start: 'top 65%',
-        end: 'bottom 5%',
-        scrub: 1
-      }
+    gsap.matchMedia().add('(min-width: 768px)', () => {
+      const mediaTl = gsap.timeline({scrollTrigger:{trigger:statement,start:'top 65%',end:'bottom 5%',scrub:1}});
+      mediaTl.fromTo(statement.querySelectorAll('.statement-word'), {color:'#151515'}, {color:'#fff',opacity:1,y:0,duration:.7,stagger:.025,ease:'none'},0);
+      mediaTl.to(windows,{width:(_,el)=>Math.min(parseFloat(el.dataset.open||160),innerWidth*.16),opacity:1,y:0,scale:1,duration:.75,stagger:.08,ease:'power2.out'},.08);
+      mediaTl.to('.media-window img',{scale:1,duration:.85,stagger:.08,ease:'power2.out'},.08);
     });
-    mediaTl.fromTo(statement.querySelectorAll('.statement-word'), {color: '#151515'}, {
-      color: '#fff',
-      opacity: 1,
-      y: 0,
-      duration: .7,
-      stagger: { each: .025, from: 'start' },
-      ease: 'none'
-    }, 0);
-    mediaTl.to(windows, {
-      width: (_, el) => {
-        const target = parseFloat(el.dataset.open || 160);
-        return Math.min(target, window.innerWidth < 768 ? window.innerWidth * .34 : window.innerWidth * .16);
-      },
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      duration: .75,
-      stagger: .08,
-      ease: 'power2.out'
-    }, .08);
-    mediaTl.to('.media-window img', {
-      scale: 1,
-      duration: .85,
-      stagger: .08,
-      ease: 'power2.out'
-    }, .08);
+    gsap.matchMedia().add('(max-width: 767px)', () => {
+      // Animate opacity only: no reflow, changing line breaks or horizontal overflow on phones.
+      gsap.fromTo(statement.querySelectorAll('.statement-word'),{color:'#666'},{color:'#fff',stagger:.02,ease:'none',scrollTrigger:{trigger:statement,start:'top 85%',end:'bottom 45%',scrub:.4}});
+    });
   }
 
   // 4 ── CLIP-PATH REVEAL sui titoli di sezione (testo esce da sotto come un sipario)
@@ -462,12 +438,11 @@ function initScroll() {
     x: -20, opacity: 0, duration: .55, stagger: .04, ease: 'power2.out', delay: .4
   });
 
-  // 8 ── PILLS — bouncy scale-in a onda
-  gsap.from('.pill', {
-    scrollTrigger: { trigger: '.industries-pills', start: 'top 86%' },
-    scale: 0, opacity: 0, duration: .45,
-    stagger: { each: .05, from: 'start' },
-    ease: 'back.out(2.5)'
+  // Keep specialization labels readable even when entering through an anchor.
+  if (!isMobile) gsap.fromTo('.pill', {y:8,opacity:.6}, {
+    scrollTrigger: { trigger: '.industries-section', start: 'top 86%', once:true },
+    y:0, opacity:1, duration:.45, stagger:.035,
+    ease:'power2.out', clearProps:'transform,opacity'
   });
 
   // 9 ── STATS — divisori si disegnano verso il basso, poi numeri contano
