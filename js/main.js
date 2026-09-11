@@ -497,6 +497,10 @@ function initScroll() {
   const lensSection = document.querySelector('.lens-section');
   if (lensSection) {
     const lensStage = lensSection.querySelector('.lens-stage');
+    const aboutNav = document.querySelector('.nav');
+    if (aboutNav) new ResizeObserver(() => {
+      lensSection.style.setProperty('--about-nav-height', `${aboutNav.getBoundingClientRect().height}px`);
+    }).observe(aboutNav);
 
     gsap.set(lensStage, { clearProps: 'transform,visibility,opacity' });
     gsap.set('.lens-copy', { xPercent: -50, yPercent: -50, scale: .42, opacity: 1 });

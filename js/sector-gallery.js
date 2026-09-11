@@ -1,7 +1,7 @@
 (() => {
  const root=document.querySelector('#sectorGallery');if(!root)return;
  const projects=JSON.parse(document.querySelector('#showcaseData').textContent);
- const tabs=[...root.querySelectorAll('[role=tab]')],panel=root.querySelector('.sector-panel'),grid=root.querySelector('.sector-photo-grid'),more=root.querySelector('.sector-more'),count=root.querySelector('.sector-gallery-count');
+ const tabs=[...root.querySelectorAll('[role=tab]')],panel=root.querySelector('.sector-panel'),grid=root.querySelector('.sector-photo-grid'),more=root.querySelector('.sector-more');
  let active=2,shown=8;
  function render(animate=false){
   const project=projects[active];
@@ -13,7 +13,6 @@
    const image=document.createElement('img');image.src=photo.src;image.alt=photo.alt;image.loading='lazy';image.decoding='async';image.width=640;image.height=800;
    button.append(image);grid.append(button);
   });
-  count.textContent=`${String(project.photos.length).padStart(2,'0')} fotografie`;
   more.hidden=shown>=project.photos.length;
   panel.classList.remove('is-changing');
   if(animate&&!window.perriMotionOff&&!matchMedia('(prefers-reduced-motion:reduce)').matches){void panel.offsetWidth;panel.classList.add('is-changing');}
