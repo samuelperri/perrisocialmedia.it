@@ -34,10 +34,14 @@ function initEditorialAbout(){
  const label=footer.querySelector('.deck-caption'),index=footer.querySelector('.deck-index'),bar=footer.querySelector('.deck-track span');
  const updateLabel=()=>{label.textContent=photos[current].label;index.textContent=String(current+1).padStart(2,'0')+' / '+String(photos.length).padStart(2,'0');};
  function setPhoto(frame,i){frame.querySelector('img').src=`media/${photos[(i+photos.length)%photos.length].key}.webp`;}
- slots.forEach((frame,i)=>setPhoto(frame,i-2));updateLabel();
+ updateLabel();
  slots.forEach((frame,i)=>gsap.set(frame,states[i]));
  // Decode first, retaining the original static fallback if any photograph fails.
- Promise.all(photos.map(photo=>{const image=new Image();image.src=`media/${photo.key}.webp`;return image.decode();})).then(()=>{loaded=true;panel.classList.add('is-editorial');sync();}).catch(()=>{mount.hidden=true;sync();});
+ const photoLoader=new IntersectionObserver(entries=>{
+  if(!entries.some(entry=>entry.isIntersecting))return;
+  photoLoader.disconnect();slots.forEach((frame,i)=>setPhoto(frame,i-2));
+  Promise.all(photos.map(photo=>{const image=new Image();image.src=`media/${photo.key}.webp`;return image.decode();})).then(()=>{loaded=true;panel.classList.add('is-editorial');sync();}).catch(()=>{mount.hidden=true;sync();});
+ },{rootMargin:'600px 0px'});photoLoader.observe(lens);
  const lead=document.querySelector('.about-story .lens-about-lead');
  const body=document.querySelector('.about-story .lens-about-text');
  function splitWords(element,masked){

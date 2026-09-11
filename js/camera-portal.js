@@ -15,9 +15,15 @@ if(journey){
  rows.forEach(keys=>{
   const row=document.createElement('div');row.className='cp-wall-row';
   keys.forEach(key=>{const tile=document.createElement('div');tile.className='cp-wall-tile';
-   const img=document.createElement('img');img.src='media/'+key+'-thumb.webp';img.alt='';img.draggable=false;tile.append(img);row.append(tile);
+   const img=document.createElement('img');img.dataset.src='media/'+key+'-thumb.webp';img.alt='';img.decoding='async';img.draggable=false;tile.append(img);row.append(tile);
   });wall.append(row);
  });
+ // Prepare the wall on approach to the camera, after the opening film.
+ const wallLoader=new IntersectionObserver(entries=>{
+  if(!entries.some(entry=>entry.isIntersecting))return;
+  wall.querySelectorAll('img[data-src]').forEach(img=>{img.src=img.dataset.src;delete img.dataset.src;});
+  wallLoader.disconnect();
+ },{threshold:.05});wallLoader.observe(stage);
  function measure(){
   size={width:stage.clientWidth,height:stage.clientHeight};startY=window.scrollY+journey.getBoundingClientRect().top;travel=Math.max(1,journey.offsetHeight-stage.offsetHeight);
   space.style.width=size.width+'px';space.style.height=size.height+'px';render();
@@ -97,7 +103,7 @@ if(journey){
  player.addEventListener('error',()=>{if(dialog.open&&player.getAttribute('src'))dialog.querySelector('.cp-error').hidden=false;});
  player.addEventListener('play',()=>document.querySelectorAll('video').forEach(v=>{if(v!==player)v.pause();}));
  new IntersectionObserver(entries=>{onScreen=entries[0].isIntersecting&&entries[0].intersectionRatio>.2;sync();},{threshold:[0,.2,.5]}).observe(stage);
- new ResizeObserver(measure).observe(stage);window.addEventListener('resize',measure);art.addEventListener('load',measure);window.addEventListener('scroll',()=>{schedule();if(film.paused&&progress()>.30)sync();},{passive:true});
+ new ResizeObserver(measure).observe(stage);window.addEventListener('resize',measure);art.addEventListener('load',measure);window.addEventListener('scroll',()=>{if(!onScreen)return;schedule();if(film.paused&&progress()>.30)sync();},{passive:true});
  window.addEventListener('perri:ready',()=>{siteReady=true;measure();sync();});
  function motionChange(){journey.classList.toggle('is-static',staticMode());instruction.textContent=staticMode()?'Entra nel portfolio':'SCORRI PER ENTRARE ↓';measure();sync();window.ScrollTrigger?.refresh();window.lenis?.resize();}
  preference.addEventListener('change',motionChange);window.addEventListener('perri:motion',motionChange);

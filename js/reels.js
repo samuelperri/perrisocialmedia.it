@@ -16,6 +16,8 @@
   let hoverIndex = -1, previewIndex = -1, visibleIndex = 0, movieIndex = 0;
   let inView = false, scrollFrame = 0, lastTrigger, drag, suppressClickUntil = 0;
   let wheelFrame = 0, wheelTarget = 0, wheelTime = 0, wheelDirection = 0;
+  let touch = null;
+  let scrolling = false, previewTimer = 0;
 
   function positionOf(index) {
     return cards[index].parentElement.offsetLeft - viewport.offsetLeft - viewport.clientWidth * .05;
@@ -34,12 +36,16 @@
   }
   function stopPreviews() {
     previewIndex = -1;
-    previews.forEach((video, i) => { video.pause(); cards[i].classList.remove('is-previewing'); });
+    previews.forEach((video, i) => {
+      video.pause(); cards[i].classList.remove('is-previewing');
+      // Cancel hidden downloads and release the previous mobile video decoder.
+      if (video.getAttribute('src')) { video.removeAttribute('src'); video.load(); }
+    });
   }
   function syncPreview() {
     // Only one silent preview decodes at a time; user-started films take priority.
     const otherPlaying = [...document.querySelectorAll('video')].some(video => !previews.includes(video) && !video.paused && !video.ended);
-    if (!inView || document.hidden || modal.open || reduced() || navigator.connection?.saveData || otherPlaying) { stopPreviews(); return; }
+    if (!inView || scrolling || document.hidden || modal.open || reduced() || navigator.connection?.saveData || otherPlaying) { stopPreviews(); return; }
     const eligible = cards.map((_, i) => i).filter(i => (ratios.get(i) || 0) > .55);
     const index = eligible.includes(hoverIndex) ? hoverIndex : eligible[0] ?? -1;
     if (index === previewIndex) return;
@@ -123,6 +129,9 @@
   }, {passive: false});
   viewport.addEventListener('scroll', () => {
     if (!scrollFrame) scrollFrame = requestAnimationFrame(updatePosition);
+    if (!scrolling) { scrolling = true; stopPreviews(); }
+    clearTimeout(previewTimer);
+    previewTimer = setTimeout(() => { scrolling = false; syncPreview(); }, 160);
   }, {passive: true});
   new ResizeObserver(() => { stopWheel(); updatePosition(); }).observe(viewport);
   previousButton.addEventListener('click', () => goTo(visibleIndex - 1));
@@ -143,7 +152,64 @@
     card.addEventListener('blur', () => { hoverIndex = -1; syncPreview(); });
     card.addEventListener('click', () => { lastTrigger = card; openFilm(index); });
   });
-  // Drag with a mouse; touch keeps native momentum and scroll-snap behavior.
+  // Horizontal swipes remain native. Vertical swipes move through the reels,
+  // then hand their remaining distance back to the page at either boundary.
+  viewport.addEventListener('touchstart', event => {
+    stopWheel(true);
+    if (event.touches.length !== 1 || modal.open) { touch = null; return; }
+    const point = event.touches[0], rect = viewport.getBoundingClientRect();
+    const navBottom = document.querySelector('.nav')?.getBoundingClientRect().bottom || 0;
+    touch = {x: point.clientX, y: point.clientY, lastY: point.clientY, time: performance.now(), velocity: 0, mode: null,
+      eligible: rect.top <= navBottom + 90 && rect.bottom >= innerHeight * .6};
+  }, {passive: true});
+  viewport.addEventListener('touchmove', event => {
+    if (!touch || event.touches.length !== 1 || !event.cancelable || modal.open) { touch = null; return; }
+    const point = event.touches[0], dx = point.clientX - touch.x, dy = point.clientY - touch.y;
+    const end = viewport.scrollWidth - viewport.clientWidth;
+    if (!touch.mode) {
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < 8) return;
+      const canAdvance = dy < 0 ? viewport.scrollLeft < end - 1 : viewport.scrollLeft > 1;
+      if (Math.abs(dx) >= Math.abs(dy) || !touch.eligible || end < 2) { touch.mode = 'native'; return; }
+      // Handle the boundary explicitly: some mobile browsers keep a vertical
+      // gesture inside the horizontal scroller even with no remaining travel.
+      touch.mode = canAdvance ? 'reels' : 'page';
+      window.lenis?.scrollTo(window.scrollY, {immediate: true, force: true});
+      viewport.classList.add('is-wheeling');
+    }
+    if (touch.mode === 'native') return;
+    event.preventDefault(); event.stopPropagation();
+    const now = performance.now(), delta = touch.lastY - point.clientY;
+    touch.velocity = .5 * touch.velocity + .5 * delta / Math.max(8, now - touch.time);
+    touch.lastY = point.clientY; touch.time = now;
+    const left = viewport.scrollLeft;
+    if (touch.mode === 'reels') viewport.scrollLeft = Math.max(0, Math.min(end, left + delta));
+    const remainder = touch.mode === 'page' ? delta : delta - (viewport.scrollLeft - left);
+    if (Math.abs(remainder) > 1) {
+      touch.mode = 'page';
+      const y = window.scrollY + remainder;
+      if (window.lenis) window.lenis.scrollTo(y, {immediate: true, force: true});
+      else window.scrollTo({top: y, behavior: 'instant'});
+    }
+    suppressClickUntil = now + 450;
+  }, {passive: false});
+  function finishTouch(event) {
+    if (!touch) return;
+    if (touch.mode === 'reels' && event.type !== 'touchcancel' && !reduced()) {
+      const velocity = performance.now() - touch.time < 100 ? touch.velocity : 0;
+      wheelTarget = Math.max(0, Math.min(viewport.scrollWidth - viewport.clientWidth, viewport.scrollLeft + velocity * 110));
+      wheelFrame = requestAnimationFrame(animateWheel);
+    }
+    if (touch.mode === 'page' && event.type !== 'touchcancel' && !reduced() && performance.now() - touch.time < 100) {
+      const y = window.scrollY + Math.max(-180, Math.min(180, touch.velocity * 110));
+      if (window.lenis) window.lenis.scrollTo(y, {duration: .28, force: true});
+      else window.scrollTo({top: y, behavior: 'smooth'});
+    }
+    touch = null;
+    updatePosition();
+  }
+  viewport.addEventListener('touchend', finishTouch, {passive: true});
+  viewport.addEventListener('touchcancel', finishTouch, {passive: true});
+  // Mouse dragging uses pointer capture; touch is handled separately above.
   viewport.addEventListener('pointerdown', event => {
     stopWheel(event.pointerType !== 'mouse');
     if (event.pointerType !== 'mouse' || event.button !== 0) return;
