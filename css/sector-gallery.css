@@ -7,14 +7,13 @@
 .sector-tabs button[aria-selected=true]{color:#111}
 .sector-tabs button[aria-selected=true]::after{content:'';position:absolute;inset:auto 0 -1px;height:2px;background:#8b3dff}
 .sector-photo-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
-.sector-photo{position:relative;display:block;aspect-ratio:4/5;padding:0;overflow:hidden;border:0;border-radius:0;background:#e5e1da;cursor:zoom-in}
+.sector-photo{position:relative;display:block;aspect-ratio:4/5;margin:0;padding:0;overflow:hidden;border:0;border-radius:0;background:#e5e1da}
 .sector-photo img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
-.sector-photo::after{content:'↗';position:absolute;right:12px;bottom:12px;display:grid;place-items:center;width:32px;height:32px;background:#08080880;color:white;font:18px Aeonik,Arial,sans-serif;opacity:0;transition:opacity .25s}
-@media(hover:hover){.sector-photo:hover img{transform:scale(1.035)}.sector-photo:hover::after{opacity:1}}
+
 .sector-gallery button:focus-visible{outline:2px solid #8b3dff;outline-offset:4px}
 .sector-more{display:block;margin:32px auto 0;padding:13px 22px;min-height:48px;border:1px solid #1115;background:none;color:#111;font:14px Aeonik,Arial,sans-serif;cursor:pointer}
 .sector-more[hidden]{display:none}
 .sector-panel.is-changing{animation:sector-enter .35s ease-out both}
 @keyframes sector-enter{from{opacity:.5;transform:translateY(8px)}to{opacity:1;transform:none}}
-@media(max-width:767px){.sector-gallery{padding:48px 20px 58px}.sector-gallery-head{display:block;margin-bottom:22px}.sector-gallery-head h2{font-size:38px;max-width:300px}.sector-tabs{gap:0 22px;margin-bottom:20px}.sector-tabs button{font-size:14px;min-height:46px;padding-bottom:12px}.sector-photo-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.sector-photo::after{opacity:1;width:26px;height:26px;right:8px;bottom:8px;font-size:16px}}
+@media(max-width:767px){.sector-gallery{padding:48px 20px 58px}.sector-gallery-head{display:block;margin-bottom:22px}.sector-gallery-head h2{font-size:38px;max-width:300px}.sector-tabs{gap:0 22px;margin-bottom:20px}.sector-tabs button{font-size:14px;min-height:46px;padding-bottom:12px}.sector-photo-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
 @media(prefers-reduced-motion:reduce){.sector-panel.is-changing{animation:none}.sector-photo img{transition:none}}

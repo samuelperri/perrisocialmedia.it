@@ -228,10 +228,9 @@ a { color: inherit; text-decoration: none; }
   color: rgba(255,255,255,.4); text-transform: uppercase;
 }
 .fs-skip {
-  position: absolute; bottom: 44px; right: 48px;
-  font-size: 10px; letter-spacing: .18em;
-  color: rgba(255,255,255,.22); text-transform: uppercase;
-  cursor: pointer; transition: color .25s;
+  position: absolute; top: max(24px, env(safe-area-inset-top)); right: 24px; bottom: auto;
+  z-index: 2; min-height: 48px; font-size: 14px; font-weight: 600; letter-spacing: .02em;
+  color: #fff; cursor: pointer; transition: color .25s;
 }
 .fs-skip:hover { color: #fff; }
 .fs-dots {

@@ -2,19 +2,20 @@ import {cameraGeometry,clamp} from './camera-geometry.js?v=20260911-restored';
 const journey=document.querySelector('#cameraJourney');
 if(journey){
  const films=[['46','Let Him Cook'],['75','M4 Nightlife'],['53','HYROX FEELING'],['17','Il mondo del profumo'],['54','Cortometraggio di moda']];
- const rows=[['75','03','14','55','53','70'],['12','17','01','66','56','54'],['60','24','16','13','57','64'],['67','02','16','46','61','72']];
+ const rows=[['03','75','53','55','14','70'],['12','17','54','66','56','01'],['60','24','16','13','57','64'],['67','02','46','16','61','72']];
  const stage=journey.querySelector('.cp-stage'),art=journey.querySelector('.cp-art'),photo=journey.querySelector('.cp-photo'),display=journey.querySelector('.cp-display'),space=journey.querySelector('.cp-space'),hero=journey.querySelector('.cp-hero'),film=document.querySelector('#cameraHeroFilm'),wall=journey.querySelector('.cp-wall');
  const jump=journey.querySelector('.cp-jump'),start=journey.querySelector('.cp-start'),back=journey.querySelector('.cp-back'),proceed=journey.querySelector('.cp-continue'),instruction=journey.querySelector('.cp-lcd-instruction');
- const controls=journey.querySelector('.cp-film-controls'),previous=controls.querySelector('.cp-previous'),next=controls.querySelector('.cp-next'),count=controls.querySelector('.cp-film-count');
  const dialog=document.querySelector('#cameraFilmDialog'),player=dialog.querySelector('video'),dialogPhoto=dialog.querySelector('.cp-dialog-photo');
  const preference=matchMedia('(prefers-reduced-motion:reduce)'),staticMode=()=>!!window.perriMotionOff||preference.matches;
  let priorFocus,frame=0,ready=false,attempting=false,playRequest=0,selected=0,onScreen=false,siteReady=!document.body.classList.contains('is-loading'),switching=false,hoverTimer;
  let startY=0,travel=1,size={width:1,height:1},staticEntered=false;
  const pointer={x:0,y:0},inertia={x:0,y:0},buttons=[];
- // The moving wall is purely decorative; project selection stays in fixed controls.
+ // Only video thumbnails can move into the hero; photos stay decorative.
  rows.forEach(keys=>{
   const row=document.createElement('div');row.className='cp-wall-row';
-  keys.forEach(key=>{const tile=document.createElement('div');tile.className='cp-wall-tile';
+  keys.forEach(key=>{const index=films.findIndex(item=>item[0]===key);
+   const tile=document.createElement(index<0?'div':'button');tile.className='cp-wall-tile';
+   if(index>=0){tile.type='button';tile.disabled=true;tile.tabIndex=-1;tile.dataset.film=index;tile.setAttribute('aria-label','Mostra '+films[index][1]);tile.setAttribute('aria-pressed',String(index===selected));tile.addEventListener('click',()=>selectFilm(index,tile));buttons.push(tile);}
    const img=document.createElement('img');img.dataset.src='media/'+key+'-thumb.webp';img.alt='';img.decoding='async';img.draggable=false;tile.append(img);row.append(tile);
   });wall.append(row);
  });
@@ -42,7 +43,7 @@ if(journey){
   instruction.style.opacity=1-clamp(p/.24);instruction.hidden=p>.3;
   display.style.background=p>=.78?'#080808':'#faf9f7';stage.style.background=p>=.78?'#080808':'#faf9f7';stage.classList.toggle('is-dark',p>=.78);
   ready=p>=.72;journey.classList.toggle('is-ready',ready);jump.hidden=ready;
-  previous.disabled=next.disabled=!ready;hero.disabled=!ready;hero.tabIndex=ready?0:-1;buttons.forEach(b=>{b.disabled=!ready;b.tabIndex=ready?0:-1;});
+  hero.disabled=!ready;hero.tabIndex=ready?0:-1;buttons.forEach(b=>{b.disabled=!ready;b.tabIndex=ready?0:-1;});
   back.tabIndex=proceed.tabIndex=ready?0:-1;
   const motion=ready&&onScreen&&siteReady&&!document.hidden&&!dialog.open&&!staticMode();
   journey.classList.toggle('is-running',onScreen&&siteReady&&!document.hidden&&!dialog.open&&!staticMode()&&p>.30);
@@ -67,7 +68,7 @@ if(journey){
   const [key,title]=films[selected];
   const change=()=>{
    ++playRequest;film.pause();attempting=false;film.poster='media/'+key+'-thumb.webp';film.src='media/'+key+'.mp4';
-   hero.setAttribute('aria-label','Guarda '+title);hero.querySelector('.cp-card-label').textContent=title+' ↗';count.textContent=String(selected+1).padStart(2,'0')+' / '+String(films.length).padStart(2,'0');sync();
+   hero.setAttribute('aria-label','Guarda '+title);buttons.forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.film)===selected)));sync();
   };
   if(staticMode()||!window.gsap){change();return;}
   switching=true;
@@ -92,7 +93,6 @@ if(journey){
  function moveTo(y){if(window.lenis)window.lenis.scrollTo(y,{duration:1.35,immediate:staticMode()});else window.scrollTo({top:y,behavior:staticMode()?'instant':'smooth'});}
  jump.addEventListener('click',()=>{if(staticMode()){staticEntered=true;sync();}else moveTo(startY+travel);});back.addEventListener('click',()=>{if(staticMode()){staticEntered=false;sync();}else moveTo(startY);});proceed.addEventListener('click',()=>film.pause());hero.addEventListener('click',openFilm);
  start.addEventListener('click',()=>{film.muted=true;film.play().then(()=>{start.hidden=true;}).catch(()=>{start.textContent='Riprova il video';});});
- previous.addEventListener('click',()=>selectFilm((selected+films.length-1)%films.length));next.addEventListener('click',()=>selectFilm((selected+1)%films.length));
  stage.addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;const r=stage.getBoundingClientRect();pointer.x=Math.max(-1,Math.min(1,(e.clientX-r.left)/r.width*2-1));pointer.y=Math.max(-1,Math.min(1,(e.clientY-r.top)/r.height*2-1));schedule();});
  stage.addEventListener('pointerleave',()=>{clearTimeout(hoverTimer);pointer.x=pointer.y=0;schedule();});
  film.addEventListener('error',()=>{start.textContent='Riprova il video';start.hidden=false;});

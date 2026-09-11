@@ -12,15 +12,15 @@
 .cp-wall-row:nth-child(even){animation-direction:alternate-reverse;animation-duration:52s}.cp-journey.is-running .cp-wall-row{animation-play-state:running}
 @keyframes cp-wall-drift{from{transform:translateX(0)}to{transform:translateX(-28%)}}
 .cp-wall-tile{min-width:0;min-height:0;margin:0;padding:0;border:0;border-radius:0;background:#171717;overflow:hidden;filter:brightness(.43);transition:filter .25s}.cp-wall-tile img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
-button.cp-wall-tile{cursor:pointer}button.cp-wall-tile:hover,button.cp-wall-tile:focus-visible{filter:brightness(.85);outline:1px solid #ae7eff;outline-offset:-2px}
+button.cp-wall-tile{cursor:pointer;pointer-events:auto}button.cp-wall-tile:hover,button.cp-wall-tile:focus-visible{filter:brightness(.85);outline:1px solid #ae7eff;outline-offset:-2px}
 .cp-hero{position:absolute;left:50%;top:50%;width:min(43vw,88svh);aspect-ratio:16/9;transform:translate(-50%,-50%);margin:0;padding:0;border:0;border-radius:0;background:#080808;color:white;cursor:pointer;box-shadow:0 22px 70px #000b;z-index:3;will-change:transform}
 .cp-hero video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
-.cp-card-label{position:absolute;left:0;top:-28px;right:0;text-align:left;font:400 clamp(12px,1vw,18px)/1.2 Aeonik,Arial,sans-serif;color:#eee;pointer-events:none}
+
 .cp-hero:focus-visible{outline:2px solid #b98bff;outline-offset:6px}
-.cp-film-controls{position:absolute;left:50%;top:calc(50% + min(13.5vw,28.5svh) + 20px);transform:translateX(-50%);display:flex;align-items:center;gap:30px;z-index:5;color:#eee;opacity:0;pointer-events:none}
-.cp-film-controls button{border:1px solid #ffffff60;border-radius:0;background:#08080880;color:inherit;min-width:44px;min-height:44px;font:20px Aeonik,Arial,sans-serif;cursor:pointer;transition:background .2s}
-.cp-film-controls button:hover{background:#8b3dff}.cp-film-count{font:400 12px Aeonik,Arial,sans-serif;letter-spacing:.15em}
-.cp-journey.is-ready .cp-film-controls{opacity:1;pointer-events:auto}
+
+
+
+
 .cp-jump,.cp-start{position:absolute;right:3%;bottom:24px;z-index:6;border:0;border-bottom:1px solid currentColor;border-radius:0;padding:10px 0;background:#ffffffc9;color:#333;font:400 14px Aeonik,Arial,sans-serif;cursor:pointer}
 .cp-start{left:3%;right:auto}.cp-jump[hidden],.cp-start[hidden]{display:none}.cp-stage.is-dark .cp-jump,.cp-stage.is-dark .cp-start{color:#eee;background:#08080890}
 .cp-exit{position:absolute;left:3%;right:3%;bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:20px;z-index:5;opacity:0;pointer-events:none}
@@ -28,16 +28,16 @@ button.cp-wall-tile{cursor:pointer}button.cp-wall-tile:hover,button.cp-wall-tile
 .cp-continue span{margin-left:20px}.cp-journey.is-ready .cp-exit{opacity:1;pointer-events:auto}
 body.camera-paper .nav,body.camera-paper .nav.scrolled{background:#fffffff0;border-color:#0001;color:#111}body.camera-paper .nav-logo,body.camera-paper .nav-link{color:#111}body.camera-paper .nav-cta{background:#111;color:#fff}
 body.camera-cinema .nav{opacity:0;pointer-events:none}body.camera-cinema .nav:focus-within{opacity:1;pointer-events:auto}
-.cp-hero:focus-visible,.cp-film-controls button:focus-visible{outline:2px solid #b98bff;outline-offset:-3px}
+.cp-hero:focus-visible{outline:2px solid #b98bff;outline-offset:-3px}
 .cp-dialog{margin:auto;border:1px solid #ffffff26;padding:0;background:#090909;color:white;width:96vw;max-width:none;max-height:94svh}.cp-dialog::backdrop{background:#000f}
 .cp-dialog-bar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 22px}.cp-dialog-bar h2{font-size:18px;line-height:1.25;font-weight:400;margin:0}.cp-close{background:none;border:0;color:#ddd;font-size:14px;padding:9px;cursor:pointer}.cp-dialog video{display:block;width:100%;max-height:82svh;object-fit:contain;background:#050505}.cp-error{padding:20px;color:#ddd}.cp-error[hidden]{display:none}
 
-@media(max-width:700px){.cp-film-controls{top:calc(50% + 24vw + 18px);gap:22px}.cp-card-label{padding:20px 8px 8px;font-size:12px}.cp-exit{bottom:24px}.cp-exit button,.cp-exit a{font-size:11px}}
+@media(max-width:700px){.cp-exit{bottom:24px}.cp-exit button,.cp-exit a{font-size:11px}}
 .cp-journey.is-static{height:100svh}.cp-journey.is-static .cp-stage{position:relative}
 @media(prefers-reduced-motion:reduce){.cp-project{will-change:auto}}
 
-.cp-film-controls{top:calc(50% + min(12.1vw,24.75svh) + 22px)}
-@media(max-width:700px){.cp-wall{inset:13% -35%;gap:12px}.cp-wall-row{width:210%;gap:12px}.cp-hero{width:82vw}.cp-film-controls{top:calc(50% + 24vw + 22px)}.cp-card-label{font-size:13px;top:-26px}}
+
+@media(max-width:700px){.cp-wall{inset:13% -35%;gap:12px}.cp-wall-row{width:210%;gap:12px}.cp-hero{width:82vw}}
 .cp-journey.is-static .cp-wall-row{animation:none}
 .cp-wall-row:focus-within{animation-play-state:paused!important}
 @media(hover:hover){.cp-wall-row:hover{animation-play-state:paused!important}}

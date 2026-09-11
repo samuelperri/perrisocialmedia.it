@@ -7,11 +7,10 @@
   const project=projects[active];
   tabs.forEach(tab=>{const selected=Number(tab.dataset.sector)===active;tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1;if(selected)panel.setAttribute('aria-labelledby',tab.id);});
   grid.replaceChildren();
-  project.photos.slice(0,shown).forEach((photo,index)=>{
-   const button=document.createElement('button');button.className='sector-photo';button.type='button';button.dataset.case=active;button.dataset.photo=index;
-   button.setAttribute('aria-label',`Apri ${project.selector}: fotografia ${index+1}`);button.setAttribute('aria-haspopup','dialog');button.setAttribute('aria-controls','projectDialog');
+  project.photos.slice(0,shown).forEach(photo=>{
+   const figure=document.createElement('figure');figure.className='sector-photo';figure.tabIndex=-1;
    const image=document.createElement('img');image.src=photo.src;image.alt=photo.alt;image.loading='lazy';image.decoding='async';image.width=640;image.height=800;
-   button.append(image);grid.append(button);
+   figure.append(image);grid.append(figure);
   });
   more.hidden=shown>=project.photos.length;
   panel.classList.remove('is-changing');
