@@ -13,10 +13,10 @@
 @keyframes cp-wall-drift{from{transform:translateX(0)}to{transform:translateX(-28%)}}
 .cp-wall-tile{min-width:0;min-height:0;margin:0;padding:0;border:0;border-radius:0;background:#171717;overflow:hidden;filter:brightness(.43);transition:filter .25s}.cp-wall-tile img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
 button.cp-wall-tile{cursor:pointer;pointer-events:auto}button.cp-wall-tile:hover,button.cp-wall-tile:focus-visible{filter:brightness(.85);outline:1px solid #ae7eff;outline-offset:-2px}
-.cp-hero{position:absolute;left:50%;top:50%;width:min(43vw,88svh);aspect-ratio:16/9;transform:translate(-50%,-50%);margin:0;padding:0;border:0;border-radius:0;background:#080808;color:white;cursor:pointer;box-shadow:0 22px 70px #000b;z-index:3;will-change:transform}
+.cp-hero{position:absolute;left:50%;top:50%;width:min(43vw,88svh);aspect-ratio:16/9;transform:translate(-50%,-50%);margin:0;padding:0;border:0;border-radius:0;background:#080808;color:white;cursor:default;box-shadow:0 22px 70px #000b;z-index:3;will-change:transform}
 .cp-hero video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
 
-.cp-hero:focus-visible{outline:2px solid #b98bff;outline-offset:6px}
+
 
 
 
@@ -28,9 +28,6 @@ button.cp-wall-tile{cursor:pointer;pointer-events:auto}button.cp-wall-tile:hover
 .cp-continue span{margin-left:20px}.cp-journey.is-ready .cp-exit{opacity:1;pointer-events:auto}
 body.camera-paper .nav,body.camera-paper .nav.scrolled{background:#fffffff0;border-color:#0001;color:#111}body.camera-paper .nav-logo,body.camera-paper .nav-link{color:#111}body.camera-paper .nav-cta{background:#111;color:#fff}
 body.camera-cinema .nav{opacity:0;pointer-events:none}body.camera-cinema .nav:focus-within{opacity:1;pointer-events:auto}
-.cp-hero:focus-visible{outline:2px solid #b98bff;outline-offset:-3px}
-.cp-dialog{margin:auto;border:1px solid #ffffff26;padding:0;background:#090909;color:white;width:96vw;max-width:none;max-height:94svh}.cp-dialog::backdrop{background:#000f}
-.cp-dialog-bar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 22px}.cp-dialog-bar h2{font-size:18px;line-height:1.25;font-weight:400;margin:0}.cp-close{background:none;border:0;color:#ddd;font-size:14px;padding:9px;cursor:pointer}.cp-dialog video{display:block;width:100%;max-height:82svh;object-fit:contain;background:#050505}.cp-error{padding:20px;color:#ddd}.cp-error[hidden]{display:none}
 
 @media(max-width:700px){.cp-exit{bottom:24px}.cp-exit button,.cp-exit a{font-size:11px}}
 .cp-journey.is-static{height:100svh}.cp-journey.is-static .cp-stage{position:relative}
@@ -41,6 +38,6 @@ body.camera-cinema .nav{opacity:0;pointer-events:none}body.camera-cinema .nav:fo
 .cp-journey.is-static .cp-wall-row{animation:none}
 .cp-wall-row:focus-within{animation-play-state:paused!important}
 @media(hover:hover){.cp-wall-row:hover{animation-play-state:paused!important}}
-.cp-dialog .cp-dialog-photo{display:block;width:100%;height:80svh;object-fit:contain;background:#080808}
-.cp-dialog video[hidden],.cp-dialog .cp-dialog-photo[hidden]{display:none}
 @media(prefers-reduced-motion:reduce){.cp-wall-row{animation:none!important}}
+
+@media(max-width:767px){.cp-exit{display:none}}
