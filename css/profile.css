@@ -1,5 +1,17 @@
-/* A quiet, unpinned introduction, followed by the companies behind the work. */
-.profile-section{background:#090909;color:#ededf0;scroll-margin-top:100px;padding:0;overflow:clip}
+/* The original text zoom opens onto the new personal introduction. */
+.profile-section{background:#090909;color:#ededf0;scroll-margin-top:100px;padding:0;overflow:visible}
+.profile-lens{position:relative;background:#090909}
+.profile-lens-stage{position:relative;background:#090909;isolation:isolate}
+.profile-lens .lens-copy,.profile-lens .lens-corner,.profile-lens .lens-noise,.profile-lens-wipe{display:none;pointer-events:none}
+.profile-lens.is-zoom{height:calc(var(--profile-stage-height,100svh) + var(--profile-zoom-travel,240svh))}
+.profile-lens.is-zoom .profile-lens-stage{position:sticky;top:0;min-height:100svh;display:grid;align-items:center;overflow:clip}
+.profile-lens.is-zoom .profile-intro{grid-area:1/1;position:relative;z-index:6;padding-top:max(clamp(100px,12vw,200px),calc(var(--profile-nav-height,90px) + 28px))}
+.profile-lens.is-zoom .profile-enter{transition:none;opacity:1;transform:none}
+.profile-lens.is-zoom .lens-copy,.profile-lens.is-zoom .lens-corner,.profile-lens.is-zoom .lens-noise,.profile-lens.is-zoom .profile-lens-wipe{display:block}
+.profile-lens.is-zoom .lens-copy{top:50svh;will-change:transform,opacity}
+.profile-lens.is-zoom .lens-corner{top:calc(var(--profile-nav-height,90px) + 20px);left:6%;font-size:12px}
+.profile-lens-wipe{position:absolute;inset:0;background:#090909;z-index:2;opacity:0}
+.profile-lens.is-zoom .profile-intro:focus-within{opacity:1!important;transform:none!important}
 .profile-intro{width:88%;max-width:1480px;margin:auto;padding:clamp(100px,12vw,200px) 0 clamp(76px,8vw,132px);display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(48px,8vw,140px);align-items:center}
 .profile-eyebrow{font:500 12px/1.4 Aeonik,Arial,sans-serif;letter-spacing:.14em;margin:0 0 30px;color:#a09aa8}
 .profile-heading h2{font:500 clamp(46px,5.7vw,88px)/1.02 Aeonik,Arial,sans-serif;letter-spacing:-.055em;margin:0}

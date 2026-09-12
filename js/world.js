@@ -1,4 +1,4 @@
-/* The introduction is regular page content; only the logo belts loop. */
+/* Logo belts keep their own visibility and motion controls. */
 const profile=document.querySelector('.profile-section');
 if(profile){
  const partners=profile.querySelector('.partners');
@@ -30,7 +30,7 @@ if(profile){
    entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');reveal.unobserve(entry.target);}});
   },{rootMargin:'0px 0px 70px 0px',threshold:0});
   entered.forEach(item=>reveal.observe(item));
-  if(!motionOff())profile.classList.add('has-motion');
+  if(!motionOff()&&!profile.querySelector('.profile-lens'))profile.classList.add('has-motion');
   new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;sync();},{rootMargin:'100px',threshold:0}).observe(partners);
  }
  document.addEventListener('visibilitychange',sync);
