@@ -482,13 +482,6 @@ function initScroll() {
     x: -20, opacity: 0, duration: .55, stagger: .04, ease: 'power2.out', delay: .4
   });
 
-  // Keep specialization labels readable even when entering through an anchor.
-  if (!isMobile) gsap.fromTo('.pill', {y:8,opacity:.6}, {
-    scrollTrigger: { trigger: '.industries-section', start: 'top 86%', once:true },
-    y:0, opacity:1, duration:.45, stagger:.035,
-    ease:'power2.out', clearProps:'transform,opacity'
-  });
-
   // 9 ── STATS — divisori si disegnano verso il basso, poi numeri contano
   gsap.from('.stat-divider', {
     scrollTrigger: { trigger: '.stats-section', start: 'top 80%' },

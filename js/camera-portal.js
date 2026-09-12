@@ -1,8 +1,8 @@
 import {cameraGeometry,clamp} from './camera-geometry.js?v=20260911-restored';
 const journey=document.querySelector('#cameraJourney');
 if(journey){
- const films=[['46','Let Him Cook'],['75','M4 Nightlife'],['53','HYROX FEELING'],['17','Il mondo del profumo'],['54','Cortometraggio di moda']];
- const rows=[['03','75','53','55','14','70'],['12','17','54','66','56','01'],['60','24','16','13','57','64'],['67','02','46','16','61','72']];
+ const films=[['46','Let Him Cook'],['53','HYROX FEELING'],['17','Il profumo 1968'],['54','Cortometraggio di moda']];
+ const rows=[['03','17','53','55','14','70'],['12','17','54','66','56','01'],['60','24','16','13','57','64'],['67','02','46','16','61','72']];
  const stage=journey.querySelector('.cp-stage'),art=journey.querySelector('.cp-art'),photo=journey.querySelector('.cp-photo'),display=journey.querySelector('.cp-display'),space=journey.querySelector('.cp-space'),hero=journey.querySelector('.cp-hero'),film=document.querySelector('#cameraHeroFilm'),wall=journey.querySelector('.cp-wall');
  const jump=journey.querySelector('.cp-jump'),start=journey.querySelector('.cp-start'),back=journey.querySelector('.cp-back'),proceed=journey.querySelector('.cp-continue'),instruction=journey.querySelector('.cp-lcd-instruction');
  const preference=matchMedia('(prefers-reduced-motion:reduce)'),staticMode=()=>!!window.perriMotionOff||preference.matches;
