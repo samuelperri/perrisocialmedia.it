@@ -12,21 +12,22 @@
 .client-photo.is-on{opacity:1}
 .client-card.is-active .client-photo{transform:scale(1)}
 .client-photo.is-design{object-fit:contain;padding:110px 18px 168px;background:var(--card-bg)}
-.client-shade{position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#0003 0%,transparent 35%,#0002 55%,#000d 100%)}
-.client-logo{position:absolute;left:26px;top:44px;width:104px;height:68px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:var(--logo-bg,#fff);padding:9px 12px}
-.client-logo img{width:100%;height:100%;object-fit:contain}
-.client-card[data-client="papalia"] .client-logo{width:180px;height:54px}
-.client-card[data-client="profvmo"] .client-logo{width:132px;height:84px}
+.client-shade{position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#0009 0%,#0002 30%,transparent 45%,#0002 55%,#000d 100%)}
+.client-logo{position:absolute;left:26px;top:48px;width:104px;height:76px;display:flex;align-items:center;justify-content:center;background:none;padding:0;z-index:2;pointer-events:none}
+.client-logo img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 8px #0006)}
+.client-card[data-client="papalia"] .client-logo{width:220px;height:42px}
+.client-card[data-client="profvmo"] .client-logo{width:138px;height:84px}
+.client-card[data-client="profvmo"] .client-logo img{filter:brightness(0) invert(1) drop-shadow(0 2px 8px #0006)}
+.client-card[data-client="kenko"] .client-logo{width:110px;height:100px}
 .client-story-controls{position:absolute;inset:14px 22px auto;display:flex;gap:5px;z-index:3}
 .client-story-controls button{position:relative;flex:1;height:28px;padding:0;border:0;background:transparent;cursor:pointer}
 .client-story-controls button::before{content:"";position:absolute;inset:13px 0;background:#ffffff55;border-radius:2px}
 .client-story-controls button::after{content:"";position:absolute;inset:13px 0;background:white;transform:scaleX(0);transform-origin:left;border-radius:2px}
 .client-story-controls button[aria-pressed="true"]::after{transform:scaleX(1)}
-.client-story-controls button:focus-visible,.client-pause:focus-visible{outline:2px solid white;outline-offset:2px}
-.client-pause{position:absolute;right:22px;top:43px;width:44px;height:44px;border:1px solid #fff6;border-radius:50%;background:#0003;color:#fff;display:grid;place-items:center;cursor:pointer;font-size:18px;line-height:1}
-.client-pause span{pointer-events:none}
-.client-pause[hidden]{display:none}
-.client-caption{position:absolute;left:28px;right:28px;bottom:30px}
+.client-story-controls button:focus-visible{outline:2px solid white;outline-offset:2px}
+.client-next{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:pointer;z-index:1}
+.client-next:focus-visible{outline:2px solid #fff;outline-offset:-8px;border-radius:inherit}
+.client-caption{position:absolute;left:28px;right:28px;bottom:30px;z-index:2;pointer-events:none}
 .client-caption h3{font-size:clamp(32px,3vw,46px);line-height:1;letter-spacing:-.045em;font-weight:600;margin:0 0 16px;text-wrap:balance}
 .client-caption p{font-size:16px;line-height:1.45;margin:0;max-width:310px;color:#ffffffe0}
 .client-caption .client-field{font-size:12px;text-transform:uppercase;letter-spacing:.1em;margin:0 0 12px;color:#ffffffc9}
@@ -38,7 +39,7 @@
  .is-desktop .client-intro h2{font-size:clamp(48px,5.5vw,96px);max-width:520px}
  .is-desktop .client-rail{position:absolute;left:44%;top:50%;width:56%;height:min(680px,calc(100svh - 164px));min-height:430px;transform:translateY(-46%);display:block;padding:0;overflow:visible;scroll-snap-type:none}
  .is-desktop .client-card{position:absolute;inset:0 auto auto 0;width:calc(min(680px,100svh - 164px)*.71);min-width:306px;height:100%;min-height:0;will-change:transform;scroll-snap-align:none}
- .is-desktop .client-card:not(.is-active) .client-pause,.is-desktop .client-card:not(.is-active) .client-story-controls{visibility:hidden}
+ .is-desktop .client-card:not(.is-active) .client-story-controls{visibility:hidden}
 }
 @media(max-width:767px){
  .client-stage{padding:48px 0 40px}

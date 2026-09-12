@@ -11,7 +11,7 @@
  .about-section .about-mobile-text{display:block;margin:0;color:#5a5560;font:400 14px/1.5 Aeonik,Arial,sans-serif}
  .about-section .lens-about-kicker{font-size:10px;line-height:1.4;letter-spacing:.1em}
  .about-section .about-contact{font:400 14px/1.4 Aeonik,Arial,sans-serif;padding-block:6px}
- .about-section .lens-about-card .about-visual{height:clamp(100px,20svh,150px);min-height:0;max-height:none;flex:none}
+ .about-section .lens-about-card .about-visual{height:clamp(170px,27svh,225px);min-height:0;max-height:none;flex:none}
  .about-section .lens-corner{top:calc(var(--about-nav-height,104px) + 20px);left:5%}
  body.motion-off .about-section .lens-stage{min-height:0!important;padding:32px 0 42px}
  body.motion-off .about-mobile-lead{color:#eee}
