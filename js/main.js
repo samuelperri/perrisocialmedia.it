@@ -506,48 +506,7 @@ function initScroll() {
     });
   });
 
-  // 10 ── ABOUT LENS — pinned text zoom + reveal del testo personale
-  const lensSection = document.querySelector('.lens-section');
-  if (lensSection) {
-    const lensStage = lensSection.querySelector('.lens-stage');
-    const aboutNav = document.querySelector('.nav');
-    if (aboutNav) new ResizeObserver(() => {
-      lensSection.style.setProperty('--about-nav-height', `${aboutNav.getBoundingClientRect().height}px`);
-    }).observe(aboutNav);
-
-    gsap.set(lensStage, { clearProps: 'transform,visibility,opacity' });
-    gsap.set('.lens-copy', { xPercent: -50, yPercent: -50, scale: .42, opacity: 1 });
-    gsap.set('.lens-title', { color: '#fff', transformOrigin: '50% 50%' });
-    gsap.set('.lens-entry-letter', { color: 'inherit' });
-    gsap.set('.lens-white-wipe', { opacity: 0 });
-    gsap.set('.lens-corner', { opacity: 1, y: 0 });
-    gsap.set('.lens-about-card', { x: 0, xPercent: -50, yPercent: -50, opacity: 0, y: 64 });
-    gsap.set('.lens-about-inner > *', { opacity: 0, y: 34 });
-
-    const lensTl = gsap.timeline({ paused: true });
-    lensTl
-      .to('.lens-copy', { opacity: 1, scale: .42, duration: .18, ease: 'power2.out' }, .08)
-      .to('.lens-copy', { scale: 1, duration: .18, ease: 'power2.out' }, .24)
-      .to('.lens-copy', { scale: 17, duration: .48, ease: 'power1.inOut' }, .42)
-      .to('.lens-corner', { opacity: 0, y: -20, duration: .16, ease: 'power2.out' }, .46)
-      .to('.lens-white-wipe', { opacity: 1, duration: .12, ease: 'none' }, .86)
-      .to('.lens-stage', { backgroundColor: '#f6f4ee', duration: .12, ease: 'none' }, .86)
-      .to('.lens-copy', { opacity: 0, duration: .08, ease: 'power2.out' }, .92)
-      .to('.lens-noise', { opacity: 0, duration: .14, ease: 'none' }, .92)
-      .to('.lens-about-card', { opacity: 1, y: 0, duration: .2, ease: 'power3.out' }, .98)
-      .to('.lens-about-inner > *', { opacity: 1, y: 0, duration: .24, stagger: .05, ease: 'power2.out' }, 1.03);
-
-    lensTl.to({}, { duration: .45 });
-    const updateLens = () => {
-      const rect = lensSection.getBoundingClientRect();
-      const travel = Math.max(1, lensSection.offsetHeight - lensStage.offsetHeight);
-      lensTl.progress(gsap.utils.clamp(0, 1, -rect.top / travel));
-    };
-    window.addEventListener('scroll', updateLens, { passive: true });
-    window.addEventListener('resize', updateLens);
-    if (lenis) lenis.on('scroll', updateLens);
-    updateLens();
-  }
+  // The personal introduction now follows normal document flow.
 
   // 11 ── TESTIMONIALS — asimmetrici: sinistra/centro/destra con leggera rotazione
   gsap.from('.testimonial-card:nth-child(1)', {
