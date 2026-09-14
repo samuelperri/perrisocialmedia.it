@@ -1,10 +1,11 @@
-import {cameraGeometry,clamp} from './camera-geometry.js?v=20260914-aligned';
+import {cameraGeometry,clamp} from './camera-geometry.js?v=20260915-registered';
+import {registerCameraDrawing} from './camera-registration.js?v=20260915';
 import {createWelcome} from './welcome.js?v=20260914';
 const journey=document.querySelector('#cameraJourney');
 if(journey){
  const films=[['46','Let Him Cook'],['53','HYROX FEELING'],['17','profvmo 1968']];
  const rows=[['03','17','53','55','14','70'],['12','17','63','66','56','01'],['60','24','16','13','57','64'],['67','02','46','16','61','72']];
- const stage=journey.querySelector('.cp-stage'),art=journey.querySelector('.cp-art'),photo=journey.querySelector('.cp-photo'),display=journey.querySelector('.cp-display'),space=journey.querySelector('.cp-space'),hero=journey.querySelector('.cp-hero'),film=document.querySelector('#cameraHeroFilm'),wall=journey.querySelector('.cp-wall');
+ const stage=journey.querySelector('.cp-stage'),art=registerCameraDrawing(journey.querySelector('.cp-art')),photo=journey.querySelector('.cp-photo'),display=journey.querySelector('.cp-display'),space=journey.querySelector('.cp-space'),hero=journey.querySelector('.cp-hero'),film=document.querySelector('#cameraHeroFilm'),wall=journey.querySelector('.cp-wall');
  const jump=journey.querySelector('.cp-jump'),start=journey.querySelector('.cp-start'),back=journey.querySelector('.cp-back'),proceed=journey.querySelector('.cp-continue'),instruction=journey.querySelector('.cp-lcd-instruction');
  const preference=matchMedia('(prefers-reduced-motion:reduce)'),staticMode=()=>!!window.perriMotionOff||preference.matches;
  const welcome=createWelcome(journey.querySelector('.cp-welcome'));
