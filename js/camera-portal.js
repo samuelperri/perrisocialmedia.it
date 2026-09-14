@@ -1,4 +1,5 @@
 import {cameraGeometry,clamp} from './camera-geometry.js?v=20260911-restored';
+import {createWelcome} from './welcome.js?v=20260914';
 const journey=document.querySelector('#cameraJourney');
 if(journey){
  const films=[['46','Let Him Cook'],['53','HYROX FEELING'],['17','Il profumo 1968'],['54','Cortometraggio di moda']];
@@ -6,6 +7,7 @@ if(journey){
  const stage=journey.querySelector('.cp-stage'),art=journey.querySelector('.cp-art'),photo=journey.querySelector('.cp-photo'),display=journey.querySelector('.cp-display'),space=journey.querySelector('.cp-space'),hero=journey.querySelector('.cp-hero'),film=document.querySelector('#cameraHeroFilm'),wall=journey.querySelector('.cp-wall');
  const jump=journey.querySelector('.cp-jump'),start=journey.querySelector('.cp-start'),back=journey.querySelector('.cp-back'),proceed=journey.querySelector('.cp-continue'),instruction=journey.querySelector('.cp-lcd-instruction');
  const preference=matchMedia('(prefers-reduced-motion:reduce)'),staticMode=()=>!!window.perriMotionOff||preference.matches;
+ const welcome=createWelcome(journey.querySelector('.cp-welcome'));
  let frame=0,ready=false,attempting=false,playRequest=0,selected=0,onScreen=false,siteReady=!document.body.classList.contains('is-loading'),switching=false;
  let startY=0,travel=1,size={width:1,height:1},staticEntered=false;
  const pointer={x:0,y:0},inertia={x:0,y:0},buttons=[];
@@ -42,6 +44,7 @@ if(journey){
   instruction.style.opacity=1-clamp(p/.24);instruction.hidden=p>.3;
   display.style.background=p>=.78?'#080808':'#faf9f7';stage.style.background=p>=.78?'#080808':'#faf9f7';stage.classList.toggle('is-dark',p>=.78);
   ready=p>=.72;journey.classList.toggle('is-ready',ready);jump.hidden=ready;
+  welcome.update({visible:ready&&onScreen&&siteReady&&!document.hidden,reduced:staticMode()});
   buttons.forEach(b=>{b.disabled=!ready;b.tabIndex=ready?0:-1;});
   back.tabIndex=proceed.tabIndex=ready?0:-1;
   const motion=ready&&onScreen&&siteReady&&!document.hidden&&!document.querySelector('dialog[open]')&&!staticMode();
@@ -89,6 +92,6 @@ if(journey){
  function motionChange(){journey.classList.toggle('is-static',staticMode());instruction.textContent=staticMode()?'Entra nel portfolio':'SCORRI PER ENTRARE ↓';measure();sync();window.ScrollTrigger?.refresh();window.lenis?.resize();}
  preference.addEventListener('change',motionChange);window.addEventListener('perri:motion',motionChange);
  document.addEventListener('visibilitychange',sync);
- window.addEventListener('pagehide',()=>{cancelAnimationFrame(frame);frame=0;journey.classList.remove('is-running');film.pause();});window.addEventListener('pageshow',sync);
+ window.addEventListener('pagehide',()=>{cancelAnimationFrame(frame);frame=0;journey.classList.remove('is-running');welcome.stop();film.pause();});window.addEventListener('pageshow',sync);
  document.fonts.ready.then(measure);motionChange();
 }

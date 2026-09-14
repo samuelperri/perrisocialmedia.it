@@ -15,6 +15,13 @@
 button.cp-wall-tile{cursor:pointer;pointer-events:auto}button.cp-wall-tile:hover,button.cp-wall-tile:focus-visible{filter:brightness(.85);outline:1px solid #ae7eff;outline-offset:-2px}
 .cp-hero{position:absolute;left:50%;top:50%;width:min(43vw,88svh);aspect-ratio:16/9;transform:translate(-50%,-50%);margin:0;padding:0;border:0;border-radius:0;background:#080808;color:white;cursor:default;box-shadow:0 22px 70px #000b;z-index:3;will-change:transform}
 .cp-hero video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+@font-face{font-family:PerriWelcome;src:url('../fonts/sacramento-latin.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
+.cp-welcome{position:absolute;top:clamp(8px,1vw,18px);left:0;right:0;display:grid;place-items:center;padding:0 12px;color:#fff;font:400 clamp(32px,2.9vw,58px)/1.5 PerriWelcome,cursive;letter-spacing:0;text-transform:none;text-align:center;white-space:nowrap;text-shadow:0 2px 14px #0009;pointer-events:none;user-select:none;opacity:0;transition:opacity .65s ease;z-index:1}
+.cp-welcome.is-visible{opacity:1}
+.cp-welcome-word{grid-area:1/1;opacity:0;transform:translateY(5px);filter:blur(3px);transition:opacity .55s ease,transform .7s ease,filter .7s ease}
+.cp-welcome-word.is-current{opacity:1;transform:translateY(0);filter:blur(0)}
+.cp-welcome.is-still,.cp-welcome.is-still .cp-welcome-word{transition:none}
+@media(prefers-reduced-motion:reduce){.cp-welcome,.cp-welcome-word{transition:none}}
 
 
 
