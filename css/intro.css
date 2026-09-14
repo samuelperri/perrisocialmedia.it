@@ -12,7 +12,6 @@
 .intro-card img,.intro-card video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
 .intro-card video{opacity:0}
 .intro-card video.is-playing{opacity:1}
-.intro-clips{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
 .intro-skip{position:absolute;top:max(20px,env(safe-area-inset-top));right:24px;z-index:3;padding:12px 18px;border:1px solid #ffffff66;background:#0f0f0f;color:#fff;border-radius:24px;opacity:0;pointer-events:none;font:14px Aeonik,Arial,sans-serif}
 .intro-skip:focus-visible{opacity:1;pointer-events:auto;outline:2px solid #a776ff;outline-offset:4px}
 body.intro-active{overflow:hidden}

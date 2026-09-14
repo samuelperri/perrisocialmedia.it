@@ -15,10 +15,10 @@ export function cameraGeometry(w,h,unused,p){
   return {camera:{width,height,scale,x:centerX-(lcd.x+lcd.width/2)*width*scale,y:centerY-(lcd.y+lcd.height/2)*height*scale},
    screen:{x:centerX-width*lcd.width*scale/2,y:centerY-height*lcd.height*scale/2,width:width*lcd.width*scale,height:height*lcd.height*scale}};
  }
- const a=pose(LCD,{x:160/1536,y:120/1024,width:1216/1536,height:760/1024});
+ // Register the supplied transparent drawing against the real camera controls.
+ const a=pose(LCD,{x:151/1536,y:118/1024,width:1205/1536,height:754/1024});
  const b=pose(photoLCD,{x:100/1536,y:70/1024,width:1336/1536,height:836/1024});
  const screen={};for(const k of ['x','y','width','height'])screen[k]=mix(a.screen[k],b.screen[k],blend);
  const settle=ease((p-.78)/.10);for(const [k,v]of Object.entries({x:0,y:0,width:w,height:h}))screen[k]=mix(screen[k],v,settle);
  return {outline:a.camera,photo:b.camera,screen,blend,cameraVisible:p<.78,reveal:ease((p-.30)/.32)};
 }
-

@@ -1,4 +1,4 @@
-import {cameraGeometry,clamp} from './camera-geometry.js?v=20260911-restored';
+import {cameraGeometry,clamp} from './camera-geometry.js?v=20260914-aligned';
 import {createWelcome} from './welcome.js?v=20260914';
 const journey=document.querySelector('#cameraJourney');
 if(journey){
