@@ -13,11 +13,10 @@ const lenis = window.Lenis && !prefersReducedMotion ? new Lenis({
     duration: 1.15,
     easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t))
   },
-  prevent: node => !!node.closest('#preloader, #filmstrip, .faq-a')
+  prevent: node => !!node.closest('.faq-a')
 }) : null;
 
 if (lenis) {
-  lenis.stop();
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add(time => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
@@ -172,86 +171,6 @@ function initHeroCards() {
   });
 }
 
-for (let i = 0; i < 9; i++) {
-  const l = document.createElement('div');
-  l.className = 'pl-line';
-  document.getElementById('plLines').appendChild(l);
-}
-const plBar      = document.getElementById('plBar');
-const plCountNum = document.getElementById('plCountNum');
-const plCountPct = document.getElementById('plCountPct');
-const count      = { v: 0 };
-
-// Preserve the photographic loading sequence before revealing the camera.
-gsap.from('.pl-name-word span', { y: '110%', opacity: 0, duration: 1, ease: 'power3.out', stagger: .12, delay: .15 });
-gsap.to('.pl-line', { width: '100%', duration: 1.6, ease: 'power2.inOut', stagger: .07, delay: .2 });
-gsap.to(count, {
-  v: 100, duration: 2.6, ease: 'power1.inOut', delay: .2,
-  onUpdate() {
-    const v = Math.round(count.v);
-    plCountNum.textContent = v;
-    plBar.style.width = v + '%';
-    if (v > 0) plBar.classList.add('started');
-    plCountPct.style.color = `hsl(0,0%,${Math.round(v * .55)}%)`;
-  },
-  onComplete: exitPreloader
-});
-
-function exitPreloader() {
-  const tl = gsap.timeline({ onComplete: startFilmstrip });
-  tl.to(['.pl-name', '#plCounter', '.pl-bar-wrap'], { opacity: 0, y: -16, duration: .45, ease: 'power2.in' });
-  tl.to('#plTop', { yPercent: -100, duration: 1.05, ease: 'power3.inOut' }, '-=.05');
-  tl.to('#plBot', { yPercent:  100, duration: 1.05, ease: 'power3.inOut' }, '<');
-  tl.to('#preloader', { opacity: 0, duration: .25, onComplete() {
-    document.getElementById('preloader').style.display = 'none';
-    document.body.classList.remove('is-loading');
-  }});
-}
-
-/* ─── FILMSTRIP ─── */
-const slides = [{"label": "Food · Fotografia", "g": "url('media/14.webp') center / cover"}, {"label": "Sport · Fotografia", "g": "url('media/01.webp') center / cover"}, {"label": "Eventi · Fotografia", "g": "url('media/70.webp') center / cover"}, {"label": "Sanitario · Fotografia", "g": "url('media/55.webp') center / cover"}, {"label": "Food · Fotografia", "g": "url('media/12.webp') center / cover"}, {"label": "Sport · Fotografia", "g": "url('media/03.webp') center / cover"}];
-const fsTrack = document.getElementById('fsTrack');
-const fsDots  = document.getElementById('fsDots');
-[0,1].forEach(() => slides.forEach(s => {
-  const el = document.createElement('div');
-  el.className = 'fs-slide';
-  el.innerHTML = `<div class="fs-slide-bg" style="background:${s.g}"></div>`;
-  fsTrack.appendChild(el);
-}));
-slides.forEach((_, i) => {
-  const d = document.createElement('div');
-  d.className = 'fs-dot' + (i === 0 ? ' on' : '');
-  fsDots.appendChild(d);
-});
-
-let fsKilled = false;
-function startFilmstrip() {
-  const fs = document.getElementById('filmstrip');
-  fs.classList.add('live');
-  gsap.to(fs, { opacity: 1, duration: .6, ease: 'power2.out' });
-  gsap.from('.fs-slide', { x: 100, opacity: 0, duration: 1.1, stagger: .07, ease: 'power3.out' });
-  const slideW = fsTrack.querySelector('.fs-slide').offsetWidth + 14;
-  const loopW  = slideW * slides.length;
-  const dots   = fsDots.querySelectorAll('.fs-dot');
-  const tween  = gsap.to(fsTrack, {
-    x: -loopW, duration: slides.length * 1.5, ease: 'none',
-    onUpdate() {
-      const pct = Math.abs(gsap.getProperty(fsTrack,'x')) / loopW;
-      const idx = Math.min(Math.floor(pct * slides.length), slides.length - 1);
-      dots.forEach((d, i) => d.classList.toggle('on', i === idx));
-    },
-    onComplete: endFilmstrip
-  });
-  document.getElementById('fsSkip').onclick = () => { tween.kill(); endFilmstrip(); };
-}
-function endFilmstrip() {
-  if (fsKilled) return; fsKilled = true;
-  gsap.to('#filmstrip', { opacity: 0, duration: .7, ease: 'power2.in', onComplete() {
-    document.getElementById('filmstrip').style.display = 'none';
-    revealSite();
-  }});
-}
-
 /* ─── NAV SCROLL ─── */
 ScrollTrigger.create({
   start: 'top -60',
@@ -274,7 +193,7 @@ function revealSite() {
 
   ScrollTrigger.create({trigger: '#hero', start: 'top 82%', once: true, onEnter: revealHero});
 
-  cursorHover(document.querySelectorAll('a, button, .wh-card, .hero-statement, .testimonial-card, .service-card, .fs-skip, .pill'));
+  cursorHover(document.querySelectorAll('a, button, .wh-card, .hero-statement, .testimonial-card, .service-card, .intro-motion, .pill'));
   initScroll();
   initFAQ();
   document.fonts.ready.then(() => ScrollTrigger.refresh());
@@ -574,4 +493,6 @@ function initFAQ() {
   });
 }
 
+// The opening is content, not a timed gate: the site is usable immediately.
+revealSite();
 } else { window.perriMotionOff = true; }

@@ -2,8 +2,8 @@
 .opening-film{position:relative;height:100svh;min-height:560px;background:#080808;overflow:hidden;isolation:isolate;color:#fff}
 .opening-film>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;z-index:-2}
 .opening-film-shade{position:absolute;inset:0;background:linear-gradient(180deg,#0005,transparent 45%,#0008),linear-gradient(90deg,#0003,transparent 65%);z-index:-1;pointer-events:none}
-.opening-film h1{position:absolute;left:4%;top:21%;margin:0;font:400 clamp(100px,15vw,280px)/.87 Koulen,Arial,sans-serif;letter-spacing:-.025em;color:#fff;pointer-events:none}
-.opening-film h1 span{color:#8b3dff}
+.opening-film #opening-title{position:absolute;left:4%;top:21%;margin:0;font:400 clamp(100px,15vw,280px)/.87 Koulen,Arial,sans-serif;letter-spacing:-.025em;color:#fff;pointer-events:none}
+.opening-film #opening-title span{color:#8b3dff}
 .opening-film-bottom{position:absolute;left:4%;right:4%;bottom:max(58px,env(safe-area-inset-bottom));display:flex;justify-content:space-between;align-items:end;gap:24px;font:400 16px/1.2 Koulen,Arial,sans-serif}
 .opening-film-bottom a{color:#fff;display:flex;align-items:center;gap:24px;min-height:44px;text-decoration:none}
 .opening-film-bottom a span{font:24px Aeonik,Arial,sans-serif}
@@ -23,7 +23,7 @@ body.opening-visible .nav-cta{background:#8b3dff;color:white}
 .industries-section .pill{transition:color .25s,border-color .25s,background-color .25s}
 @media(max-width:767px){
  .opening-film{min-height:580px}
- .opening-film h1{left:5%;top:25%;font-size:28vw;line-height:.88}
+ .opening-film #opening-title{left:5%;top:25%;font-size:28vw;line-height:.88}
  .opening-film-bottom{left:5%;right:5%;bottom:58px;font-size:13px;gap:12px}
  .opening-film-bottom a{gap:12px}
  .opening-film-bottom p{max-width:120px;text-align:right}
