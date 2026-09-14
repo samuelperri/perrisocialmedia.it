@@ -22,3 +22,4 @@
 
 /* Final spacing below the typographic statement. */
 #hero.hero{padding-bottom:clamp(72px,8vw,150px)}
+@media(max-width:767px){#hero.hero{padding-top:20px}#hero .hero-statement{padding-top:0}.cp-wall{bottom:6%}}
