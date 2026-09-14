@@ -6,7 +6,7 @@ if(opening&&openingVideo){
  const preference=matchMedia('(prefers-reduced-motion:reduce)');
  let visible=false,ready=!document.body.classList.contains('is-loading'),attempting=false,manual=false,userPaused=false;
  const reduce=()=>!!window.perriMotionOff||preference.matches||!!navigator.connection?.saveData;
- const canShow=()=>visible&&ready&&!document.hidden&&!document.querySelector('dialog[open]');
+ const canShow=()=>visible&&ready&&(!document.body.classList.contains('intro-active')||document.body.classList.contains('intro-revealing'))&&!document.hidden&&!document.querySelector('dialog[open]');
  openingVideo.defaultMuted=true;openingVideo.muted=true;openingVideo.playsInline=true;
  function updateControl(){
   const paused=openingVideo.paused;
@@ -34,6 +34,7 @@ if(opening&&openingVideo){
  });
  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting&&entries[0].intersectionRatio>.2;syncOpening();},{threshold:[0,.2,.5]}).observe(opening);
  window.addEventListener('perri:ready',()=>{ready=true;syncOpening();});
+ window.addEventListener('perri:intro-reveal',syncOpening);window.addEventListener('perri:intro-end',syncOpening);
  openingVideo.addEventListener('playing',updateControl);
  openingVideo.addEventListener('pause',updateControl);
  openingVideo.addEventListener('canplay',syncOpening);

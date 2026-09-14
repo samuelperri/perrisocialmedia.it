@@ -17,6 +17,7 @@ const lenis = window.Lenis && !prefersReducedMotion ? new Lenis({
 }) : null;
 
 if (lenis) {
+  if (document.body.classList.contains('intro-active')) lenis.stop();
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add(time => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
@@ -182,7 +183,7 @@ ScrollTrigger.create({
 /* ─── REVEAL SITE ─── */
 function revealSite() {
   if (lenis) {
-    lenis.start();
+    if (!document.body.classList.contains('intro-active')) lenis.start();
     lenis.resize();
   }
 
@@ -193,7 +194,7 @@ function revealSite() {
 
   ScrollTrigger.create({trigger: '#hero', start: 'top 82%', once: true, onEnter: revealHero});
 
-  cursorHover(document.querySelectorAll('a, button, .wh-card, .hero-statement, .testimonial-card, .service-card, .intro-motion, .pill'));
+  cursorHover(document.querySelectorAll('a, button, .wh-card, .hero-statement, .testimonial-card, .service-card, .intro-skip, .pill'));
   initScroll();
   initFAQ();
   document.fonts.ready.then(() => ScrollTrigger.refresh());
@@ -493,6 +494,6 @@ function initFAQ() {
   });
 }
 
-// The opening is content, not a timed gate: the site is usable immediately.
+// Initialize the page behind the optional, independently managed intro.
 revealSite();
 } else { window.perriMotionOff = true; }
