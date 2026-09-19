@@ -11,6 +11,9 @@
   const error = modal.querySelector('#filmError');
   const mediaQuery = matchMedia('(prefers-reduced-motion: reduce)');
   const reduced = () => window.perriMotionOff || mediaQuery.matches;
+  const mobileQuery = matchMedia('(max-width: 767px), (hover: none) and (pointer: coarse)');
+  const mobile = () => mobileQuery.matches;
+  let audioIndex = -1;
   const pad = value => String(value).padStart(2, '0');
   const ratios = new Map();
   let hoverIndex = -1, previewIndex = -1, visibleIndex = 0, movieIndex = 0;
@@ -36,7 +39,9 @@
   }
   function stopPreviews() {
     previewIndex = -1;
+    audioIndex = -1;
     previews.forEach((video, i) => {
+      video.muted = true;
       video.pause(); cards[i].classList.remove('is-previewing');
       // Cancel hidden downloads and release the previous mobile video decoder.
       if (video.getAttribute('src')) { video.removeAttribute('src'); video.load(); }
@@ -45,9 +50,11 @@
   function syncPreview() {
     // Only one silent preview decodes at a time; user-started films take priority.
     const otherPlaying = [...document.querySelectorAll('video')].some(video => !previews.includes(video) && !video.paused && !video.ended);
-    if (!inView || scrolling || document.hidden || modal.open || reduced() || navigator.connection?.saveData || otherPlaying) { stopPreviews(); return; }
+    if (!inView || (scrolling && !mobile()) || document.hidden || modal.open || (reduced() && audioIndex < 0) || (navigator.connection?.saveData && audioIndex < 0) || otherPlaying) { stopPreviews(); return; }
     const eligible = cards.map((_, i) => i).filter(i => (ratios.get(i) || 0) > .55);
-    const index = eligible.includes(hoverIndex) ? hoverIndex : eligible[0] ?? -1;
+    const bounds = viewport.getBoundingClientRect();
+    const closest = cards.map((card,i) => { const r=card.getBoundingClientRect(); return {i,visible:Math.max(0,Math.min(r.right,bounds.right)-Math.max(r.left,bounds.left))/r.width}; }).sort((a,b)=>b.visible-a.visible)[0];
+    const index = mobile() ? (closest.visible > .35 ? closest.i : -1) : eligible.includes(hoverIndex) ? hoverIndex : eligible[0] ?? -1;
     if (index === previewIndex) return;
     stopPreviews();
     if (index < 0) return;
@@ -59,7 +66,7 @@
   }
   previews.forEach((video, index) => {
     video.addEventListener('playing', () => {
-      if (previewIndex === index && !modal.open && !document.hidden && !reduced()) cards[index].classList.add('is-previewing');
+      if (previewIndex === index && !modal.open && !document.hidden && (!reduced() || audioIndex === index)) cards[index].classList.add('is-previewing');
       else video.pause();
     });
     video.addEventListener('pause', () => cards[index].classList.remove('is-previewing'));
@@ -129,6 +136,7 @@
   }, {passive: false});
   viewport.addEventListener('scroll', () => {
     if (!scrollFrame) scrollFrame = requestAnimationFrame(updatePosition);
+    if (mobile()) { syncPreview(); return; }
     if (!scrolling) { scrolling = true; stopPreviews(); }
     clearTimeout(previewTimer);
     previewTimer = setTimeout(() => { scrolling = false; syncPreview(); }, 160);
@@ -150,7 +158,16 @@
     card.addEventListener('pointerleave', () => { hoverIndex = -1; syncPreview(); });
     card.addEventListener('focus', () => { if (card.matches(':focus-visible')) goTo(index); hoverIndex = index; syncPreview(); });
     card.addEventListener('blur', () => { hoverIndex = -1; syncPreview(); });
-    card.addEventListener('click', () => { lastTrigger = card; openFilm(index); });
+    card.addEventListener('click', () => {
+      if (!mobile()) { lastTrigger = card; openFilm(index); return; }
+      // A tap only enables sound in place. Swiping never opens a player.
+      if (previewIndex !== index) { stopPreviews(); previewIndex = index; }
+      const video = previews[index];
+      audioIndex = index;
+      if (!video.getAttribute('src')) { video.src = card.dataset.src; video.load(); }
+      video.muted = false;
+      video.play().catch(() => { video.muted = true; audioIndex = -1; video.play().catch(() => {}); });
+    });
   });
   // Horizontal swipes remain native. Vertical swipes move through the reels,
   // then hand their remaining distance back to the page at either boundary.
@@ -169,6 +186,7 @@
     if (!touch.mode) {
       if (Math.max(Math.abs(dx), Math.abs(dy)) < 8) return;
       const canAdvance = dy < 0 ? viewport.scrollLeft < end - 1 : viewport.scrollLeft > 1;
+      suppressClickUntil = performance.now() + 450;
       if (Math.abs(dx) >= Math.abs(dy) || !touch.eligible || end < 2) { touch.mode = 'native'; return; }
       // Handle the boundary explicitly: some mobile browsers keep a vertical
       // gesture inside the horizontal scroller even with no remaining travel.
@@ -176,7 +194,7 @@
       window.lenis?.scrollTo(window.scrollY, {immediate: true, force: true});
       viewport.classList.add('is-wheeling');
     }
-    if (touch.mode === 'native') return;
+    if (touch.mode === 'native') { suppressClickUntil = performance.now() + 450; return; }
     event.preventDefault(); event.stopPropagation();
     const now = performance.now(), delta = touch.lastY - point.clientY;
     touch.velocity = .5 * touch.velocity + .5 * delta / Math.max(8, now - touch.time);
@@ -285,6 +303,16 @@
   window.addEventListener('pageshow', syncPreview);
   mediaQuery.addEventListener('change', () => { stopWheel(true); syncPreview(); });
   window.addEventListener('perri:motion', syncPreview);
+  function syncMobileLabels() {
+    cards.forEach(card => {
+      card.setAttribute('aria-label', (mobile() ? 'Attiva audio: ' : 'Guarda ') + card.dataset.title);
+      if (mobile()) { card.removeAttribute('aria-haspopup'); card.removeAttribute('aria-controls'); }
+      else { card.setAttribute('aria-haspopup','dialog'); card.setAttribute('aria-controls','reelDialog'); }
+    });
+    stopPreviews(); syncPreview();
+  }
+  mobileQuery.addEventListener('change', syncMobileLabels);
+  syncMobileLabels();
   updatePosition();
 
   // One restrained entrance. The track stays visible if GSAP is unavailable.
