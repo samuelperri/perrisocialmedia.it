@@ -1,7 +1,7 @@
 // A passive ribbon: rotate one photograph at a time only while it is in view.
 (() => {
  const root=document.querySelector('.brand-ribbon');if(!root)return;
- const projects=JSON.parse(document.querySelector('#showcaseData').textContent);
+ const projects=JSON.parse(document.querySelector('#ribbonData').textContent);
  const frames=[...root.querySelectorAll('.brand-frame')];
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const positions=frames.map((frame,i)=>projects[i].photos.findIndex(photo=>frame.firstElementChild.getAttribute('src')===photo.src));
