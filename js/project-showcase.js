@@ -2,6 +2,7 @@
 (() => {
  const root=document.querySelector('.brand-ribbon');if(!root)return;
  const projects=JSON.parse(document.querySelector('#ribbonData').textContent);
+ if(projects.every(project=>project.photos.length<2))return;
  const frames=[...root.querySelectorAll('.brand-frame')];
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const positions=frames.map((frame,i)=>projects[i].photos.findIndex(photo=>frame.firstElementChild.getAttribute('src')===photo.src));
