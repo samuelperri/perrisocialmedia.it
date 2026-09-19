@@ -428,20 +428,6 @@ function initScroll() {
 
   // The personal introduction now follows normal document flow.
 
-  // 11 ── TESTIMONIALS — asimmetrici: sinistra/centro/destra con leggera rotazione
-  gsap.from('.testimonial-card:nth-child(1)', {
-    scrollTrigger: { trigger: '.testimonials-grid', start: 'top 82%' },
-    x: -60, opacity: 0, rotation: -3, duration: 1, ease: 'power3.out'
-  });
-  gsap.from('.testimonial-card:nth-child(2)', {
-    scrollTrigger: { trigger: '.testimonials-grid', start: 'top 82%' },
-    y: 70, opacity: 0, duration: 1, ease: 'power3.out', delay: .1
-  });
-  gsap.from('.testimonial-card:nth-child(3)', {
-    scrollTrigger: { trigger: '.testimonials-grid', start: 'top 82%' },
-    x: 60, opacity: 0, rotation: 3, duration: 1, ease: 'power3.out', delay: .2
-  });
-
   // 12 ── FAQ — slide da destra a cascata
   gsap.from('.faq-left > *', {
     scrollTrigger: { trigger: '.faq-section', start: 'top 80%' },

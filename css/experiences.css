@@ -1,0 +1,31 @@
+.testimonials-section.experience-section{overflow:hidden;background:#090909;color:#fff;padding:100px 0 64px}
+.experience-heading{text-align:center}
+.experience-heading .eyebrow{color:#a7a7a7}
+.experience-heading .section-title{margin:20px 0 24px;line-height:1}
+.experience-heading>p{color:#aaa;font-size:16px;line-height:1.65;margin:0}
+.experience-viewport{overflow-x:auto;overflow-y:hidden;padding:62px 0 48px;scrollbar-width:none;perspective:1100px;outline-offset:-5px}
+.experience-viewport::-webkit-scrollbar{display:none}
+.experience-track{display:flex;gap:22px;width:max-content;padding:0 max(6vw,24px);align-items:center}
+.experience-card{position:relative;flex:0 0 auto;width:clamp(230px,21vw,340px);aspect-ratio:1/1.1;border:1px solid #ffffff26;border-radius:12px;overflow:hidden;background:#191919;color:#fff;text-align:left;padding:0;transform-origin:center;cursor:pointer;isolation:isolate}
+.experience-card img,.experience-card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.experience-card video{opacity:0;transition:opacity .35s}
+.experience-card.is-playing video{opacity:1}
+.experience-card::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 40%,#000b);pointer-events:none}
+.experience-caption{position:absolute;z-index:2;left:20px;right:18px;bottom:22px;display:grid;gap:7px}
+.experience-caption small{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#ddd}
+.experience-caption strong{font-size:21px;font-weight:500;line-height:1.12}
+.experience-open{position:absolute;z-index:2;right:15px;top:15px;display:grid;place-items:center;width:35px;height:35px;background:#0005;border:1px solid #fff6;border-radius:50%;opacity:0;transition:opacity .2s}
+.experience-card:hover .experience-open,.experience-card:focus-visible .experience-open{opacity:1}
+.experience-card:focus-visible{outline:3px solid #b68aff;outline-offset:4px}
+.experience-footer{display:flex;align-items:center;justify-content:space-between;gap:20px;border-top:1px solid #ffffff24;padding-top:24px;color:#aaa;font-size:13px}
+.experience-arrows{display:flex;gap:10px}
+.experience-arrows button{border:1px solid #ffffff40;background:transparent;color:#fff;border-radius:50%;width:46px;height:46px;font-size:22px;cursor:pointer}
+.experience-arrows button:hover{background:#fff;color:#111}
+.experience-dialog{margin:auto;border:1px solid #ffffff30;border-radius:12px;padding:55px 20px 20px;background:#111;color:#fff;max-width:min(1000px,94vw);width:max-content;max-height:94dvh}
+.experience-dialog::backdrop{background:#000d;backdrop-filter:blur(8px)}
+.experience-close{position:absolute;top:14px;right:18px;background:none;border:0;color:white;font-size:14px;padding:6px;cursor:pointer}
+.experience-media img,.experience-media video{display:block;max-width:100%;max-height:72dvh;width:auto;margin:auto;object-fit:contain}
+.experience-dialog h3{font-size:17px;font-weight:500;margin:16px 0 0}
+.experience-error{color:#ddd;font-size:14px}
+@media(max-width:767px){.testimonials-section.experience-section{padding:60px 0 40px}.experience-heading .section-title{font-size:clamp(44px,10.8vw,70px)}.experience-heading>p{font-size:14px}.experience-viewport{padding:30px 0;scroll-snap-type:x mandatory}.experience-track{gap:14px;padding:0 6vw}.experience-card{width:72vw;max-width:340px;aspect-ratio:1;scroll-snap-align:center;transform:none!important}.experience-caption strong{font-size:20px}.experience-open{opacity:1}.experience-footer{font-size:11px}.experience-arrows button{width:38px;height:38px}}
+@media(prefers-reduced-motion:reduce){.experience-card{transform:none!important}.experience-card video{display:none}}
