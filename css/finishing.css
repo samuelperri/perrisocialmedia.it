@@ -1,10 +1,10 @@
 /* Editorial typography shared with the final contact invitation. */
 .nav-center{gap:clamp(20px,2.2vw,38px);align-items:center}
-.nav-link{font-family:Aeonik,Arial,sans-serif;font-size:16px;font-weight:400;letter-spacing:-.02em;text-transform:none;position:relative;padding:7px 0;color:#eee}
+.nav-link{font-family:Inter,Arial,sans-serif;font-size:16px;font-weight:400;letter-spacing:-.02em;text-transform:none;position:relative;padding:7px 0;color:#eee}
 .nav-link::after{content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background:#b98bff;transform:scaleX(0);transform-origin:left;transition:transform .25s}
 .nav-link:hover::after,.nav-link:focus-visible::after{transform:scaleX(1)}
-.nav-cta{font-family:Aeonik,Arial,sans-serif;font-size:14px;letter-spacing:0;font-weight:400}
-.footer,.footer-logo,.footer-wordmark,.footer-col-label,.footer-col a{font-family:Aeonik,Arial,sans-serif}
+.nav-cta{font-family:Inter,Arial,sans-serif;font-size:14px;letter-spacing:0;font-weight:400}
+.footer,.footer-logo,.footer-wordmark,.footer-col-label,.footer-col a{font-family:Inter,Arial,sans-serif}
 .footer-wordmark{font-weight:400;font-size:clamp(58px,15vw,600px);letter-spacing:-.065em;line-height:1.05}
 .footer-logo{font-weight:400;font-size:38px;letter-spacing:-.05em}
 .footer-col-label{font-size:14px;letter-spacing:0;text-transform:none;color:#dedede}

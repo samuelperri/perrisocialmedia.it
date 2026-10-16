@@ -1,6 +1,6 @@
 /* Filmography: scene rail, landscape film, essential project details. */
 .cn-filmography{--cn-accent:#8b3dff;--cn-line:#ffffff26;padding:var(--section-space) 5%;background:#090909;color:#f0f0f0;scroll-margin-top:95px}
-.cn-heading{margin-bottom:60px}.cn-heading h2{font:500 clamp(44px,5vw,80px)/1.05 Aeonik,Arial,sans-serif;letter-spacing:-.045em}.cn-heading .editorial-label{font-size:11px;color:#929292;margin-bottom:22px}
+.cn-heading{margin-bottom:60px}.cn-heading h2{font:500 clamp(44px,5vw,80px)/1.05 Inter,Arial,sans-serif;letter-spacing:-.045em}.cn-heading .editorial-label{font-size:11px;color:#929292;margin-bottom:22px}
 /* A measured gap after the vertical films, without their old counter row. */
 .reels-section + .cn-filmography{padding-top:clamp(28px,3vw,48px)}
 .cn-project{display:grid;grid-template-columns:90px minmax(0,1fr) 230px;gap:28px;align-items:start;padding:48px 0;border-top:1px solid var(--cn-line)}.cn-number{color:#a3a3a3;font:400 16px/1.3 'Work Sans',sans-serif;font-variant-numeric:tabular-nums}

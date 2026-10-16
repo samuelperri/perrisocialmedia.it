@@ -6,7 +6,7 @@
 .cp-photo{opacity:0}
 .cp-display{position:absolute;overflow:hidden;background:#faf9f7;z-index:2;isolation:isolate}
 .cp-space{position:absolute;left:0;top:0;transform-origin:0 0;background:#080808;overflow:hidden}
-.cp-lcd-instruction{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:400 clamp(7px,.8vw,15px) Aeonik,Arial,sans-serif;letter-spacing:.08em;color:#444;pointer-events:none}.cp-lcd-instruction[hidden]{display:none}
+.cp-lcd-instruction{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:400 clamp(7px,.8vw,15px) Inter,Arial,sans-serif;letter-spacing:.08em;color:#444;pointer-events:none}.cp-lcd-instruction[hidden]{display:none}
 .cp-wall{position:absolute;inset:8% -4%;display:grid;grid-template-rows:repeat(4,minmax(0,1fr));gap:clamp(10px,1.5vw,30px);will-change:transform}
 .cp-wall-row{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(10px,1.5vw,30px);width:145%;min-height:0;animation:cp-wall-drift 44s ease-in-out infinite alternate;animation-play-state:paused}
 .cp-wall-row:nth-child(even){animation-direction:alternate-reverse;animation-duration:52s}.cp-journey.is-running .cp-wall-row{animation-play-state:running}
@@ -28,10 +28,10 @@ button.cp-wall-tile{cursor:pointer;pointer-events:auto}button.cp-wall-tile:hover
 
 
 
-.cp-jump,.cp-start{position:absolute;right:3%;bottom:24px;z-index:6;border:0;border-bottom:1px solid currentColor;border-radius:0;padding:10px 0;background:#ffffffc9;color:#333;font:400 14px Aeonik,Arial,sans-serif;cursor:pointer}
+.cp-jump,.cp-start{position:absolute;right:3%;bottom:24px;z-index:6;border:0;border-bottom:1px solid currentColor;border-radius:0;padding:10px 0;background:#ffffffc9;color:#333;font:400 14px Inter,Arial,sans-serif;cursor:pointer}
 .cp-start{left:3%;right:auto}.cp-jump[hidden],.cp-start[hidden]{display:none}.cp-stage.is-dark .cp-jump,.cp-stage.is-dark .cp-start{color:#eee;background:#08080890}
 .cp-exit{position:absolute;left:3%;right:3%;bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:20px;z-index:5;opacity:0;pointer-events:none}
-.cp-exit button,.cp-exit a{font:400 12px Aeonik,Arial,sans-serif;letter-spacing:.02em;color:#eee;text-decoration:none;background:#08080880;border:0;border-bottom:1px solid #888;padding:10px 0;cursor:pointer}
+.cp-exit button,.cp-exit a{font:400 12px Inter,Arial,sans-serif;letter-spacing:.02em;color:#eee;text-decoration:none;background:#08080880;border:0;border-bottom:1px solid #888;padding:10px 0;cursor:pointer}
 .cp-continue span{margin-left:20px}.cp-journey.is-ready .cp-exit{opacity:1;pointer-events:auto}
 body.camera-paper .nav,body.camera-paper .nav.scrolled{background:#fffffff0;border-color:#0001;color:#111}body.camera-paper .nav-logo,body.camera-paper .nav-link{color:#111}body.camera-paper .nav-cta{background:#111;color:#fff}
 body.camera-cinema .nav{opacity:0;pointer-events:none}body.camera-cinema .nav:focus-within{opacity:1;pointer-events:auto}

@@ -3,16 +3,16 @@
 .studio-intro[hidden]{display:none!important}
 .intro-panel{position:absolute;inset:0;background:#0f0f0f;will-change:transform}
 .intro-heading{position:absolute;top:50%;left:5%;right:5%;transform:translateY(-50%);text-align:center;color:#f8f8f8;pointer-events:none}
-.intro-title{font:400 clamp(23px,2.15vw,40px)/1.15 Aeonik,Arial,sans-serif;letter-spacing:-.045em;margin:0}
+.intro-title{font:400 clamp(23px,2.15vw,40px)/1.15 Inter,Arial,sans-serif;letter-spacing:-.045em;margin:0}
 .intro-title span{color:#a776ff}
-.intro-subtitle{font:400 clamp(13px,.9vw,16px)/1.5 Aeonik,Arial,sans-serif;letter-spacing:-.015em;margin:12px 0 0;color:#aaa}
+.intro-subtitle{font:400 clamp(13px,.9vw,16px)/1.5 Inter,Arial,sans-serif;letter-spacing:-.015em;margin:12px 0 0;color:#aaa}
 .intro-trail{position:absolute;inset:0;pointer-events:none}
 .intro-card{position:absolute;top:0;left:0;width:175px;aspect-ratio:1;margin:0;visibility:hidden;will-change:transform}
 .intro-card-media{position:absolute;inset:0;overflow:hidden}
 .intro-card img,.intro-card video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
 .intro-card video{opacity:0}
 .intro-card video.is-playing{opacity:1}
-.intro-skip{position:absolute;top:max(20px,env(safe-area-inset-top));right:24px;z-index:3;padding:12px 18px;border:1px solid #ffffff66;background:#0f0f0f;color:#fff;border-radius:24px;opacity:0;pointer-events:none;font:14px Aeonik,Arial,sans-serif}
+.intro-skip{position:absolute;top:max(20px,env(safe-area-inset-top));right:24px;z-index:3;padding:12px 18px;border:1px solid #ffffff66;background:#0f0f0f;color:#fff;border-radius:24px;opacity:0;pointer-events:none;font:14px Inter,Arial,sans-serif}
 .intro-skip:focus-visible{opacity:1;pointer-events:auto;outline:2px solid #a776ff;outline-offset:4px}
 body.intro-active{overflow:hidden}
 body.intro-active .nav{visibility:hidden;pointer-events:none}

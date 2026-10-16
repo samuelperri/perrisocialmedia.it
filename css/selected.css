@@ -14,7 +14,7 @@
 /* Minimal refinements are deliberately limited to the new portfolio sections. */
 #work,#films{background:#090909}
 #work .portfolio-heading,#films .film-heading{margin-bottom:48px}
-#work .portfolio-heading h2,#films .film-heading h2{font:500 clamp(44px,5vw,80px)/1.05 Aeonik,Arial,sans-serif;letter-spacing:-.045em}
+#work .portfolio-heading h2,#films .film-heading h2{font:500 clamp(44px,5vw,80px)/1.05 Inter,Arial,sans-serif;letter-spacing:-.045em}
 #work .editorial-label,#films .editorial-label{font-size:11px;color:#929292;margin-bottom:22px}
 #work .portfolio-filters{gap:24px;border-top:1px solid #ffffff26;padding-top:20px;margin-bottom:40px}
 #work .portfolio-filters button{padding:8px 0;border:0;border-radius:0;background:none;color:#999;font-size:13px}
