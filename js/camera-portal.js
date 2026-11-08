@@ -5,7 +5,7 @@ if(journey){
  const films=[['46','Let Him Cook'],['53','HYROX FEELING'],['17','profvmo 1968']];
  const rows=[['03','17','53','55','14','70'],['12','17','63','66','56','01'],['60','24','16','13','57','64'],['67','02','46','16','61','72']];
  const stage=journey.querySelector('.cp-stage'),art=journey.querySelector('.cp-art'),photo=journey.querySelector('.cp-photo'),display=journey.querySelector('.cp-display'),space=journey.querySelector('.cp-space'),hero=journey.querySelector('.cp-hero'),film=document.querySelector('#cameraHeroFilm'),wall=journey.querySelector('.cp-wall');
- const jump=journey.querySelector('.cp-jump'),start=journey.querySelector('.cp-start'),back=journey.querySelector('.cp-back'),proceed=journey.querySelector('.cp-continue'),instruction=journey.querySelector('.cp-lcd-instruction');
+ const start=journey.querySelector('.cp-start'),back=journey.querySelector('.cp-back'),proceed=journey.querySelector('.cp-continue'),instruction=journey.querySelector('.cp-lcd-instruction');
  const preference=matchMedia('(prefers-reduced-motion:reduce)'),staticMode=()=>!!window.perriMotionOff||preference.matches;
  const welcome=createWelcome(journey.querySelector('.cp-welcome'));
  let frame=0,ready=false,attempting=false,playRequest=0,selected=0,onScreen=false,siteReady=!document.body.classList.contains('is-loading'),switching=false;
@@ -43,7 +43,7 @@ if(journey){
   space.style.opacity=g.reveal;space.style.clipPath='inset(0 '+(1-g.reveal)*40+'%)';
   instruction.style.opacity=1-clamp(p/.24);instruction.hidden=p>.3;
   display.style.background=p>=.78?'#080808':'#faf9f7';stage.style.background=p>=.78?'#080808':'#faf9f7';stage.classList.toggle('is-dark',p>=.78);
-  ready=p>=.72;journey.classList.toggle('is-ready',ready);jump.hidden=ready;
+  ready=p>=.72;journey.classList.toggle('is-ready',ready);
   welcome.update({visible:ready&&onScreen&&siteReady&&!document.hidden,reduced:staticMode()});
   buttons.forEach(b=>{b.disabled=!ready;b.tabIndex=ready?0:-1;});
   back.tabIndex=proceed.tabIndex=ready?0:-1;
@@ -81,7 +81,7 @@ if(journey){
  }
  // Finite native-scroll scene: no wheel handlers and no scroll locking.
  function moveTo(y){if(window.lenis)window.lenis.scrollTo(y,{duration:1.35,immediate:staticMode()});else window.scrollTo({top:y,behavior:staticMode()?'instant':'smooth'});}
- jump.addEventListener('click',()=>{if(staticMode()){staticEntered=true;sync();}else moveTo(startY+travel);});back.addEventListener('click',()=>{if(staticMode()){staticEntered=false;sync();}else moveTo(startY);});proceed.addEventListener('click',()=>film.pause());
+ back.addEventListener('click',()=>{if(staticMode()){staticEntered=false;sync();}else moveTo(startY);});proceed.addEventListener('click',()=>film.pause());
  start.addEventListener('click',()=>{film.muted=true;film.play().then(()=>{start.hidden=true;}).catch(()=>{start.textContent='Riprova il video';});});
  stage.addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;const r=stage.getBoundingClientRect();pointer.x=Math.max(-1,Math.min(1,(e.clientX-r.left)/r.width*2-1));pointer.y=Math.max(-1,Math.min(1,(e.clientY-r.top)/r.height*2-1));schedule();});
  stage.addEventListener('pointerleave',()=>{pointer.x=pointer.y=0;schedule();});
