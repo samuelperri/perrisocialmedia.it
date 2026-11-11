@@ -390,18 +390,6 @@ function initScroll() {
   // 6 ── WORK CARD MAGNET
   initHorizontalWork();
 
-  // 7 ── SERVICE CARDS — 3D flip-in (rotationX) + lista item a cascata
-  gsap.from('.service-card', {
-    scrollTrigger: { trigger: '.services-grid', start: 'top 82%' },
-    y: 50, opacity: 0,
-    rotationX: 14, transformPerspective: 1200, transformOrigin: 'top center',
-    duration: 1.1, stagger: .15, ease: 'power3.out'
-  });
-  gsap.from('.service-list li', {
-    scrollTrigger: { trigger: '.services-grid', start: 'top 72%' },
-    x: -20, opacity: 0, duration: .55, stagger: .04, ease: 'power2.out', delay: .4
-  });
-
   // 9 ── STATS — divisori si disegnano verso il basso, poi numeri contano
   gsap.from('.stat-divider', {
     scrollTrigger: { trigger: '.stats-section', start: 'top 80%' },

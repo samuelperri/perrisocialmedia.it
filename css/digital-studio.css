@@ -1,0 +1,135 @@
+/* Website projects and the complete studio offering. */
+.ds-projects,.ds-services{scroll-margin-top:120px;isolation:isolate}
+.ds-projects{padding:clamp(72px,8vw,140px) 4%;background:#090909;color:#f5f5f5}
+.ds-inner{width:100%;max-width:1600px;margin:0 auto}
+.ds-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-bottom:clamp(34px,4.5vw,72px)}
+.ds-eyebrow{margin:0 0 22px;color:#bb94ff;font:500 11px/1.5 Inter,Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+.ds-title{margin:0;font:400 clamp(64px,8.4vw,138px)/.94 Koulen,Impact,sans-serif;letter-spacing:-.025em;text-transform:uppercase}
+.ds-title span{color:#b88dff}
+.ds-intro{max-width:350px;margin:0 0 5px;color:#a9a6ae;font:400 clamp(14px,1.2vw,17px)/1.75 Inter,Arial,sans-serif}
+.ds-project-grid{display:grid;grid-template-columns:1.08fr 1fr;gap:48px 32px}
+.ds-project{min-width:0;display:block;color:inherit;text-decoration:none}
+.ds-project:focus-visible{outline:2px solid #b88dff;outline-offset:10px;border-radius:12px}
+.ds-browser{overflow:hidden;background:#19181c;border:1px solid #ffffff1c;border-radius:14px;transition:border-color .35s ease,transform .55s cubic-bezier(.2,.7,.2,1)}
+.ds-browser-top{height:36px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 16px;border-bottom:1px solid #ffffff10;background:#151418}
+.ds-browser-dots{display:flex;gap:5px;flex:none}
+.ds-browser-dots i{width:5px;height:5px;display:block;background:#605c66;border-radius:50%;font-style:normal}
+.ds-browser-url{color:#a8a2af;font:400 10px/1 Inter,Arial,sans-serif;letter-spacing:.015em}
+.ds-browser-mark{color:#79658e;font:400 13px/1 Inter,Arial,sans-serif}
+.ds-browser-screen{overflow:hidden;aspect-ratio:16/9;background:#ecebea}
+.ds-browser-screen img{width:100%;height:100%;display:block;object-fit:cover;object-position:top;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.ds-project-info{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:23px 2px 0}
+.ds-project-kind{margin:0 0 9px;color:#a3a0a9;font:400 11px/1.5 Inter,Arial,sans-serif;letter-spacing:.055em}
+.ds-project-name{margin:0;font:400 clamp(29px,3.2vw,48px)/1 Koulen,Impact,sans-serif;letter-spacing:-.01em}
+.ds-project-arrow{display:grid;place-items:center;flex:none;width:46px;height:46px;border:1px solid #a77ae4;border-radius:50%;color:#c59cff;transition:background .3s,color .3s,transform .4s}
+.ds-project-arrow svg{width:19px;height:19px}
+.ds-project-visit{display:block;margin:12px 0 0;color:#aaa4b1;font:400 11px/1.5 Inter,Arial,sans-serif}
+.ds-project--wide{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(240px,1fr);align-items:center;gap:clamp(28px,5vw,80px)}
+.ds-project--wide .ds-browser-screen{aspect-ratio:1.9}
+.ds-project--wide .ds-project-info{padding:0;align-items:flex-start}
+.ds-project--wide .ds-project-name{font-size:clamp(40px,4.8vw,76px)}
+.ds-project-note{max-width:280px;margin:21px 0;color:#a9a6ae;font:400 14px/1.8 Inter,Arial,sans-serif}
+.ds-project--wide .ds-project-arrow{margin-top:3px}
+@media(hover:hover) and (pointer:fine){
+ .ds-project:hover .ds-browser{border-color:#a77ae4;transform:translateY(-5px)}
+ .ds-project:hover .ds-browser-screen img{transform:scale(1.025)}
+ .ds-project:hover .ds-project-arrow{background:#8b3dff;color:white;transform:rotate(45deg)}
+}
+.ds-services{padding:clamp(72px,8vw,130px) 0;background:#090909;color:#f5f5f5;overflow:hidden}
+.ds-services .ds-heading{padding:0 4%;max-width:1728px;margin-inline:auto}
+.ds-services .ds-eyebrow{color:#b88dff}
+.ds-services .ds-title{font:700 clamp(36px,5vw,68px)/1.05 Inter,Arial,sans-serif;letter-spacing:-.04em;text-transform:none}
+.ds-services .ds-title span{color:#b88dff}
+.ds-services .ds-intro{color:#aaa6af;max-width:390px;margin-top:24px}
+.ds-service-heading-copy{max-width:900px}
+.ds-carousel-controls{display:flex;gap:10px;align-self:flex-end;padding-bottom:4px;flex-shrink:0}
+.ds-carousel-arrow{appearance:none;display:grid;place-items:center;width:48px;height:48px;padding:0;background:transparent;border:1px solid #ffffff38;border-radius:50%;color:#eee;cursor:pointer;transition:color .25s,background .25s,border-color .25s,opacity .25s}
+.ds-carousel-arrow svg{width:19px;height:19px;pointer-events:none}
+.ds-carousel-arrow:focus-visible{outline:2px solid #8b3dff;outline-offset:4px}
+.ds-carousel-arrow:hover:enabled{background:#8b3dff;color:white;border-color:#8b3dff}
+.ds-carousel-arrow:disabled{opacity:.25;cursor:default}
+.ds-service-track{--ds-card-width:min(30.7vw,470px);display:flex;gap:20px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-left:4vw;padding:7px 4% 26px;scrollbar-width:none;cursor:grab;-webkit-overflow-scrolling:touch}
+.ds-service-track::-webkit-scrollbar{display:none}
+.ds-service-track:focus-visible{outline:2px solid #8b3dff;outline-offset:-3px}
+.ds-service-track.is-ds-dragging{scroll-snap-type:none;scroll-behavior:auto;cursor:grabbing;user-select:none}
+.ds-service-card{scroll-snap-align:start;flex:0 0 var(--ds-card-width);min-width:0;min-height:485px;display:flex;flex-direction:column;padding:clamp(25px,2.5vw,42px);background:#111;border:1px solid #ffffff1a;border-radius:14px;color:white;transition:border-color .35s,transform .4s,background .35s}
+.ds-service-symbol{display:block;width:62px;height:62px;margin-bottom:39px;color:#b88dff;transition:transform .6s cubic-bezier(.2,.7,.2,1),color .3s}
+.ds-service-symbol svg{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.ds-service-card h3{margin:0 0 17px;font:600 clamp(20px,1.65vw,27px)/1.2 Inter,Arial,sans-serif;letter-spacing:-.045em}
+.ds-service-card p{margin:0;color:#b9b4c0;font:400 14px/1.8 Inter,Arial,sans-serif}
+.ds-service-examples{display:flex;flex-wrap:wrap;gap:7px;margin:24px 0 32px;padding:0;list-style:none}
+.ds-service-examples li{padding:6px 9px;border:1px solid #ffffff1c;border-radius:4px;color:#d0c7da;font:400 10px/1.5 Inter,Arial,sans-serif}
+.ds-service-link{display:inline-flex;align-items:center;gap:15px;align-self:flex-start;margin-top:auto;padding:9px 0;border-bottom:1px solid #8c779f;color:#f5efff;font:500 11px/1.5 Inter,Arial,sans-serif;text-decoration:none}
+.ds-service-link span{font-size:17px;transition:transform .3s}
+.ds-service-link:focus-visible{outline:2px solid #b88dff;outline-offset:5px}
+.ds-service-link:hover span{transform:translate(3px,-3px)}
+.ds-service-footer{display:flex;align-items:center;justify-content:space-between;gap:24px;margin:17px auto 0;padding:0 4%;max-width:1728px}
+.ds-service-footer p{margin:0;color:#a29da8;font:400 11px/1.6 Inter,Arial,sans-serif}
+.ds-service-progress{position:relative;display:block;width:160px;height:2px;overflow:hidden;background:#ffffff24}
+.ds-service-progress span{position:absolute;inset:0;transform-origin:left;transform:scaleX(.125);background:#8b3dff}
+@media(hover:hover) and (pointer:fine){
+ .ds-service-card:hover{transform:translateY(-5px);border-color:#9a67dd;background:#17111e}
+ .ds-service-card:hover .ds-service-symbol{transform:perspective(400px) rotateY(-18deg) rotateZ(-5deg);color:#d5b7ff}
+}
+.ds-reveal-pending{opacity:0;transform:translateY(24px)}
+.ds-reveal-pending.is-ds-revealed{opacity:1;transform:translateY(0);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+@media(min-width:1800px){.ds-service-track{padding-inline:max(4%,calc((100vw - 1600px)/2));scroll-padding-left:max(4vw,calc((100vw - 1600px)/2))}}
+@media(max-width:1023px){
+ .ds-title{font-size:clamp(64px,10vw,104px)}
+ .ds-heading{gap:24px}
+ .ds-intro{max-width:280px;font-size:14px}
+ .ds-project-grid{gap:36px 24px}
+ .ds-project--wide{grid-template-columns:1.4fr 1fr;gap:32px}
+ .ds-project--wide .ds-project-name{font-size:45px}
+ .ds-project-note{font-size:13px}
+ .ds-service-track{--ds-card-width:43vw}
+ .ds-service-card{min-height:485px}
+}
+@media(max-width:640px){
+ .ds-projects{padding:65px 5% 72px}
+ .ds-heading{display:block;margin-bottom:32px}
+ .ds-eyebrow{margin-bottom:17px;font-size:10px}
+ .ds-title{font-size:clamp(60px,16vw,88px);line-height:.96}
+ .ds-intro{max-width:330px;margin-top:23px;font-size:14px;line-height:1.75}
+ .ds-project-grid{display:flex;flex-direction:column;gap:34px}
+ .ds-browser{border-radius:10px}
+ .ds-browser-top{height:29px;padding:0 12px}
+ .ds-browser-url{font-size:9px}
+ .ds-browser-screen,.ds-project--wide .ds-browser-screen{aspect-ratio:16/9}
+ .ds-project-info{padding-top:18px;gap:16px}
+ .ds-project-kind{font-size:10px;margin-bottom:7px}
+ .ds-project-name,.ds-project--wide .ds-project-name{font-size:35px}
+ .ds-project-arrow{width:40px;height:40px}
+ .ds-project--wide{display:block}
+ .ds-project--wide .ds-project-info{padding-top:18px;align-items:center}
+ .ds-project-note{display:none}
+ .ds-project-visit{margin-top:9px;font-size:10px}
+ .ds-services{padding:65px 0 66px}
+ .ds-services .ds-heading{padding-inline:5%;display:flex;align-items:flex-end;gap:8px}
+ .ds-services .ds-title{font-size:clamp(34px,8.8vw,52px)}
+ .ds-services .ds-intro{max-width:260px;font-size:13px;margin-top:20px}
+ .ds-carousel-controls{gap:6px;align-self:flex-start;margin-top:32px}
+ .ds-carousel-arrow{width:35px;height:35px}
+ .ds-carousel-arrow svg{width:15px;height:15px}
+ .ds-service-track{--ds-card-width:83vw;gap:13px;padding-inline:5%;scroll-padding-left:5vw}
+ .ds-service-card{min-height:472px;padding:28px 26px}
+ .ds-service-card h3{font-size:24px}
+ .ds-service-card p{font-size:14px}
+ .ds-service-symbol{width:55px;height:55px;margin-bottom:30px}
+ .ds-service-footer{padding-inline:5%;gap:20px}
+ .ds-service-footer p{max-width:220px;font-size:10px}
+ .ds-service-progress{width:82px;flex-shrink:0}
+}
+@media(prefers-reduced-motion:reduce){
+ .ds-projects *,.ds-services *{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+ .ds-reveal-pending{opacity:1;transform:none}
+}
+body.motion-off .ds-projects *,body.motion-off .ds-services *{transition:none!important;animation:none!important}
+@media(max-width:767px){
+ .nav-center{gap:12px;overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}
+ .nav-center::-webkit-scrollbar{display:none}
+ .nav-center .nav-link{flex:0 0 auto;font-size:13px}
+}
+
+/* The complete offering replaces the original production-process section. */
+@media(max-width:640px){.ds-services .ds-heading{display:block}.ds-services .ds-service-heading-copy{max-width:none}.ds-services .ds-intro{max-width:300px}.ds-services .ds-carousel-controls{justify-content:flex-end;margin-top:20px}}
