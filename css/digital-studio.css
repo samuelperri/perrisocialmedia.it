@@ -133,3 +133,6 @@ body.motion-off .ds-projects *,body.motion-off .ds-services *{transition:none!im
 
 /* The complete offering replaces the original production-process section. */
 @media(max-width:640px){.ds-services .ds-heading{display:block}.ds-services .ds-service-heading-copy{max-width:none}.ds-services .ds-intro{max-width:300px}.ds-services .ds-carousel-controls{justify-content:flex-end;margin-top:20px}}
+
+/* Plain project names keep the brand and the preview in focus. */
+.ds-project-name,.ds-project--wide .ds-project-name{font-family:Inter,Arial,sans-serif;font-weight:500;letter-spacing:-.045em;line-height:1.12;font-size:clamp(25px,2.5vw,38px);text-transform:none}

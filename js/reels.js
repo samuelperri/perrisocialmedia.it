@@ -261,38 +261,102 @@
   }, true);
   viewport.addEventListener('dragstart', event => event.preventDefault());
 
+  const phone = modal.querySelector('.reel-phone');
+  const togglePlay = modal.querySelector('#reelTogglePlay');
+  const toggleSound = modal.querySelector('#reelToggleSound');
+  const seek = modal.querySelector('#reelSeek');
+  let resumeLenis = false;
+  const formatTime = time => {
+    const seconds = Math.max(0, Math.floor(Number.isFinite(time) ? time : 0));
+    return `${Math.floor(seconds / 60)}:${pad(seconds % 60)}`;
+  };
+  function syncPlayerControls() {
+    const duration = Number.isFinite(player.duration) ? player.duration : 0;
+    const current = Math.min(duration, player.currentTime || 0);
+    phone.classList.toggle('is-playing', !player.paused && !player.ended);
+    phone.classList.toggle('is-muted', player.muted || player.volume === 0);
+    togglePlay.setAttribute('aria-label', player.paused || player.ended ? 'Riproduci video' : 'Metti in pausa il video');
+    toggleSound.setAttribute('aria-label', player.muted || player.volume === 0 ? 'Attiva audio' : 'Disattiva audio');
+    seek.disabled = !duration;
+    seek.max = duration || 100;
+    seek.value = current;
+    seek.style.setProperty('--reel-progress', duration ? `${current / duration * 100}%` : '0%');
+    seek.setAttribute('aria-valuetext', `${formatTime(current)} di ${formatTime(duration)}`);
+    modal.querySelector('#reelElapsed').textContent = formatTime(current);
+    modal.querySelector('#reelDuration').textContent = formatTime(duration);
+  }
+  function playOrPause() {
+    if (player.paused || player.ended) player.play().catch(() => {});
+    else player.pause();
+  }
   function loadFilm(index) {
     movieIndex = (index + cards.length) % cards.length;
     const data = cards[movieIndex].dataset;
     player.pause();
     player.poster = data.poster;
     player.src = data.src;
-    player.muted = false;
     player.setAttribute('aria-label', data.title);
     modal.querySelector('#reelDialogTitle').textContent = data.title;
+    modal.querySelector('#reelPhoneTitle').textContent = data.title;
     modal.querySelector('#reelDialogCategory').textContent = data.category;
-    modal.querySelector('#filmPosition').textContent = `${pad(movieIndex + 1)} / ${pad(cards.length)} · ${data.duration}`;
+    modal.querySelector('#reelDialogDescription').textContent = data.description || '';
+    modal.querySelector('#filmPosition').textContent = `${pad(movieIndex + 1)} / ${pad(cards.length)}`;
     error.hidden = true;
+    phone.classList.add('is-buffering');
     player.load();
-    player.play().catch(() => {}); // Controls remain available if autoplay is blocked.
+    syncPlayerControls();
+    player.play().catch(() => phone.classList.remove('is-buffering'));
   }
   function openFilm(index) {
-    stopWheel();
+    stopWheel(true);
     stopPreviews();
-    if (!modal.open) modal.showModal();
+    if (!modal.open) {
+      resumeLenis = !!window.lenis && !window.lenis.isStopped;
+      window.lenis?.stop();
+      modal.showModal();
+      document.body.classList.add('reel-viewer-open');
+    }
+    document.querySelectorAll('video').forEach(video => { if (video !== player) video.pause(); });
     loadFilm(index);
   }
+  togglePlay.addEventListener('click', playOrPause);
+  player.addEventListener('click', playOrPause);
+  toggleSound.addEventListener('click', () => {
+    const wasSilent = player.muted || player.volume === 0;
+    if (player.volume === 0) player.volume = 1;
+    player.muted = !wasSilent;
+  });
+  seek.addEventListener('input', () => {
+    if (!Number.isFinite(player.duration)) return;
+    player.currentTime = Number(seek.value);
+    syncPlayerControls();
+  });
+  ['loadedmetadata', 'durationchange', 'timeupdate', 'volumechange', 'play', 'pause', 'ended'].forEach(event => player.addEventListener(event, syncPlayerControls));
+  ['waiting', 'stalled'].forEach(event => player.addEventListener(event, () => phone.classList.add('is-buffering')));
+  ['canplay', 'playing', 'pause', 'error'].forEach(event => player.addEventListener(event, () => phone.classList.remove('is-buffering')));
   modal.querySelector('.reel-close').addEventListener('click', () => modal.close());
   modal.querySelector('#previousFilm').addEventListener('click', () => loadFilm(movieIndex - 1));
   modal.querySelector('#nextFilm').addEventListener('click', () => loadFilm(movieIndex + 1));
   modal.querySelector('#reelRetry').addEventListener('click', () => loadFilm(movieIndex));
   modal.addEventListener('click', event => {
-    if (event.target !== modal) return;
-    const rect = modal.getBoundingClientRect();
-    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) modal.close();
+    if (event.target === modal || event.target.classList.contains('reel-viewer')) modal.close();
+  });
+  modal.addEventListener('keydown', event => {
+    if (event.target instanceof HTMLInputElement) return;
+    if (['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp'].includes(event.key)) {
+      event.preventDefault();
+      loadFilm(movieIndex + (['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : -1));
+    } else if (event.key.toLowerCase() === 'm') {
+      event.preventDefault(); toggleSound.click();
+    } else if (event.code === 'Space' && !event.target.closest('button, a')) {
+      event.preventDefault(); playOrPause();
+    }
   });
   modal.addEventListener('close', () => {
     player.pause(); player.removeAttribute('src'); player.load(); error.hidden = true;
+    document.body.classList.remove('reel-viewer-open');
+    if (resumeLenis) window.lenis?.start();
+    resumeLenis = false;
     lastTrigger?.focus({preventScroll: true}); syncPreview();
   });
   player.addEventListener('error', () => { if (modal.open && player.getAttribute('src')) error.hidden = false; });
@@ -304,6 +368,7 @@
   mediaQuery.addEventListener('change', () => { stopWheel(true); syncPreview(); });
   window.addEventListener('perri:motion', syncPreview);
   function syncMobileLabels() {
+    if (mobile() && modal.open) modal.close();
     cards.forEach(card => {
       card.setAttribute('aria-label', (mobile() ? 'Attiva audio: ' : 'Guarda ') + card.dataset.title);
       if (mobile()) { card.removeAttribute('aria-haspopup'); card.removeAttribute('aria-controls'); }
