@@ -81,17 +81,17 @@ body.reel-viewer-open{overflow:hidden}
 .reel-loading{position:absolute;left:calc(50% - 12px);top:calc(50% - 12px);width:24px;height:24px;border:2px solid #ffffff30;border-top-color:#fff;border-radius:50%;opacity:0;pointer-events:none;animation:reel-buffer 1s linear infinite}
 .is-buffering .reel-loading{opacity:1}
 .reel-detail{max-width:350px;min-width:0;animation:reel-detail-in .65s .1s ease both}
-.reel-viewer-label{margin:0 0 52px;color:#827c8a;font:500 10px/1.6 Inter,Arial,sans-serif;letter-spacing:.14em}
+
 #reelDialogCategory{margin:0 0 16px;color:#bc91ff;font:400 12px/1.5 Inter,Arial,sans-serif}
 #reelDialogTitle{margin:0;color:#f5f5f7;font:500 clamp(28px,3.3vw,48px)/1.08 Inter,Arial,sans-serif;letter-spacing:-.05em;text-wrap:balance}
 #reelDialogDescription{max-width:300px;margin:23px 0 0;color:#a09aa9;font:400 14px/1.8 Inter,Arial,sans-serif}
-.reel-phone-dialog .reel-dialog-footer{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:38px;padding:24px 0 0;border-top:1px solid #ffffff24;color:#938b9e;font:400 11px/1.5 Inter,Arial,sans-serif;font-variant-numeric:tabular-nums}
+.reel-phone-dialog .reel-dialog-footer{display:flex;align-items:center;justify-content:flex-end;gap:24px;margin-top:38px;padding:24px 0 0;border-top:1px solid #ffffff24;color:#938b9e;font:400 11px/1.5 Inter,Arial,sans-serif;font-variant-numeric:tabular-nums}
 .reel-film-navigation{display:flex;gap:10px}
 .reel-phone-dialog .reel-film-navigation button{display:grid;place-items:center;width:45px;height:45px;padding:12px;border:1px solid #ffffff30;border-radius:50%;background:none;color:white;cursor:pointer;transition:background .2s,border-color .2s}
 .reel-film-navigation button:hover{background:#8b3dff;border-color:#8b3dff}
 .reel-film-navigation svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
-.reel-keyboard-hint{margin:24px 0 0;color:#77707f;font:400 10px/1.7 Inter,Arial,sans-serif}
-.reel-keyboard-hint span{margin:0 7px}
+
+
 .reel-phone-dialog .reel-close{position:fixed;z-index:10;top:20px;right:24px;display:flex;align-items:center;gap:11px;min-height:44px;padding:8px 12px 8px 17px;border:1px solid #ffffff25;border-radius:30px;background:#1118;color:#ddd;font:400 12px/1 Inter,Arial,sans-serif;cursor:pointer}
 .reel-close svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round}
 .reel-close:hover{background:#ffffff16;color:#fff}
@@ -102,8 +102,8 @@ body.reel-viewer-open{overflow:hidden}
 @keyframes reel-device-in{from{opacity:0;transform:perspective(1200px) translateY(34px) rotateY(-9deg) scale(.96)}to{opacity:1;transform:perspective(1200px) translateY(0) rotateY(0) scale(1)}}
 @keyframes reel-detail-in{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 @keyframes reel-buffer{to{transform:rotate(360deg)}}
-@media(max-width:1000px){.reel-viewer{gap:36px;grid-template-columns:auto minmax(210px,280px)}#reelDialogTitle{font-size:34px}.reel-detail{max-width:280px}.reel-viewer-label{margin-bottom:35px}}
+@media(max-width:1000px){.reel-viewer{gap:36px;grid-template-columns:auto minmax(210px,280px)}#reelDialogTitle{font-size:34px}.reel-detail{max-width:280px}}
 @media(max-width:767px){.reel-phone-dialog{--phone-height:calc(100svh - 40px);padding:20px}.reel-viewer{display:block}.reel-detail{display:none}.reel-phone-dialog .reel-close{right:12px;top:12px;padding:8px}.reel-close>span{display:none}}
-@media(max-height:560px){.reel-phone-dialog{--phone-height:calc(100svh - 24px);padding:12px}.reel-phone{padding:4px;border-radius:31px}.reel-phone-screen{border-radius:25px}.reel-phone-island{width:65px;height:18px;top:7px}.reel-phone-island i{width:5px;height:5px;top:6px}.reel-social-header{top:32px;left:11px;right:11px;gap:6px}.reel-profile-mark{width:25px;height:25px;font-size:16px}.reel-profile-mark>span{font-size:16px;right:4px;bottom:4px}.reel-profile-name{font-size:9px}.reel-profile-note{font-size:6px}.reel-social-word{font-size:10px}.reel-social-actions{right:9px;bottom:111px;gap:8px}.reel-social-actions button{width:32px;height:32px;padding:7px}.reel-social-actions svg{width:17px;height:17px}.reel-social-caption{left:13px;right:44px;bottom:61px}.reel-social-caption p{font-size:10px}.reel-social-label{font-size:9px}.reel-player-controls{left:13px;right:13px;bottom:12px}.reel-viewer-label{margin-bottom:24px}#reelDialogTitle{font-size:28px}#reelDialogDescription{font-size:12px;margin-top:16px}.reel-phone-dialog .reel-dialog-footer{margin-top:24px;padding-top:18px}.reel-keyboard-hint{margin-top:16px}}
+@media(max-height:560px){.reel-phone-dialog{--phone-height:calc(100svh - 24px);padding:12px}.reel-phone{padding:4px;border-radius:31px}.reel-phone-screen{border-radius:25px}.reel-phone-island{width:65px;height:18px;top:7px}.reel-phone-island i{width:5px;height:5px;top:6px}.reel-social-header{top:32px;left:11px;right:11px;gap:6px}.reel-profile-mark{width:25px;height:25px;font-size:16px}.reel-profile-mark>span{font-size:16px;right:4px;bottom:4px}.reel-profile-name{font-size:9px}.reel-profile-note{font-size:6px}.reel-social-word{font-size:10px}.reel-social-actions{right:9px;bottom:111px;gap:8px}.reel-social-actions button{width:32px;height:32px;padding:7px}.reel-social-actions svg{width:17px;height:17px}.reel-social-caption{left:13px;right:44px;bottom:61px}.reel-social-caption p{font-size:10px}.reel-social-label{font-size:9px}.reel-player-controls{left:13px;right:13px;bottom:12px}#reelDialogTitle{font-size:28px}#reelDialogDescription{font-size:12px;margin-top:16px}.reel-phone-dialog .reel-dialog-footer{margin-top:24px;padding-top:18px}}
 @media(prefers-reduced-motion:reduce){.reel-phone,.reel-detail{animation:none}.reel-phone-dialog *{transition:none!important}.reel-loading{animation:none}}
 body.motion-off .reel-phone,body.motion-off .reel-detail{animation:none}

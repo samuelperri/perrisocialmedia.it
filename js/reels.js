@@ -300,7 +300,6 @@
     modal.querySelector('#reelPhoneTitle').textContent = data.title;
     modal.querySelector('#reelDialogCategory').textContent = data.category;
     modal.querySelector('#reelDialogDescription').textContent = data.description || '';
-    modal.querySelector('#filmPosition').textContent = `${pad(movieIndex + 1)} / ${pad(cards.length)}`;
     error.hidden = true;
     phone.classList.add('is-buffering');
     player.load();
